@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GeneratorSV.Source
+namespace GeneratorSV
 {
     public static class Encoder
     {
@@ -21,8 +21,8 @@ namespace GeneratorSV.Source
 
             buffer[bufPos++] = (byte)(0xFF & value >> 24);
             buffer[bufPos++] = (byte)(0xFF & value >> 16);
-            buffer[bufPos++] = (byte)(0xFF & value >>  8);
-            buffer[bufPos++] = (byte)(0xFF & value >>  0);
+            buffer[bufPos++] = (byte)(0xFF & value >> 8);
+            buffer[bufPos++] = (byte)(0xFF & value >> 0);
         }
 
         const double DT = 1.0 / 4000;
@@ -30,6 +30,6 @@ namespace GeneratorSV.Source
         const double DegToRad = Math.PI / 180.0;
 
         private static double kI = 1000 * Math.Sqrt(2);
-        private static double kU =  100 * Math.Sqrt(2);
+        private static double kU = 100 * Math.Sqrt(2);
     }
 }

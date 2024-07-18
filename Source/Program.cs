@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace GeneratorSV
@@ -8,6 +9,8 @@ namespace GeneratorSV
         [STAThread]
         static void Main()
         {
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
