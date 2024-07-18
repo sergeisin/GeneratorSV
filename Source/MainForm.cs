@@ -9,5 +9,10 @@ namespace GeneratorSV
         {
             InitializeComponent();
         }
+
+        private void RunButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Click", "Action", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
