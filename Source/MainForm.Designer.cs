@@ -29,7 +29,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Generator SV";
             this.ResumeLayout(false);
 
         }
