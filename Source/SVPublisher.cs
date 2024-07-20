@@ -21,7 +21,7 @@ namespace GeneratorSV
         private LibPcapLiveDevice device;
         private SVConfig config;
 
-        private Task publishingTask;
+        private Task sendingTask;
 
         public SVPublisher(string interfaceName, SVConfig configuration)
         {
@@ -193,7 +193,7 @@ namespace GeneratorSV
         {
             IsRunning = true;
 
-            publishingTask = Task.Run(() =>
+            sendingTask = Task.Run(() =>
             {
                 using (var squeue = new SendQueue(5000 * frameLength, TimestampResolution.Microsecond))
                 {
@@ -201,7 +201,17 @@ namespace GeneratorSV
                         squeue.Add(frames[i], 0, i * 250);
 
                     while (IsRunning)
+                    {
                         squeue.Transmit(device, SendQueueTransmitModes.Synchronized);
+
+                        //if (swapQueueRequest)
+                        //{
+                        //    lock (locker)
+                        //    {
+                        //        squeue = queueToSwap;
+                        //    }
+                        //}
+                    }
                 }
             });
         }
@@ -209,7 +219,7 @@ namespace GeneratorSV
         public void Stop()
         {
             IsRunning = false;
-            publishingTask.Wait();
+            sendingTask.Wait();
         }
 
         public bool IsRunning { get; private set; }
