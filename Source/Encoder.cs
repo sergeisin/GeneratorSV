@@ -21,8 +21,8 @@ namespace GeneratorSV
 
             buffer[bufPos++] = (byte)(0xFF & value >> 24);
             buffer[bufPos++] = (byte)(0xFF & value >> 16);
-            buffer[bufPos++] = (byte)(0xFF & value >> 8);
-            buffer[bufPos++] = (byte)(0xFF & value >> 0);
+            buffer[bufPos++] = (byte)(0xFF & value >>  8);
+            buffer[bufPos++] = (byte)(0xFF & value);
         }
 
         const double DT = 1.0 / 4000;
