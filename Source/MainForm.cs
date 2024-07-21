@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace GeneratorSV
@@ -6,11 +7,13 @@ namespace GeneratorSV
     public partial class MainForm : Form
     {
         SVPublisher publisher;
+        Stopwatch stopwatch;
         
         public MainForm()
         {
             InitializeComponent();
-
+            
+            stopwatch = new Stopwatch();
             publisher = new SVPublisher(interfaceName: "Ethernet", new SVConfig()
             {
                 dstMac = "01-0c-cd-04-00-01",
@@ -19,9 +22,9 @@ namespace GeneratorSV
                 hasVlan = true,
                 vlanID = "005",
 
-                appID = 0x4242,
+                appID = 0x4000,
                 simulated = false,
-                svID = "Sampled values generator STREAM_111",
+                svID = "Generator_SV_1",
                 confRev = 10000,
                 smpSynch = 2,
 
@@ -43,6 +46,8 @@ namespace GeneratorSV
 
         private void RunButton_Click(object sender, EventArgs e)
         {
+            stopwatch.Restart();
+
             if (publisher.IsRunning)
             {
                 publisher.Stop();
@@ -53,6 +58,19 @@ namespace GeneratorSV
                 publisher.Start();
                 runButton.Text = "Stop";
             }
+
+            stopwatch.Stop();
+            lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+            stopwatch.Restart();
+
+            publisher.ConfigurationChg();
+
+            stopwatch.Stop();
+            lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";
         }
     }
 }

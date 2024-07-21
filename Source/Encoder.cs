@@ -13,7 +13,7 @@ namespace GeneratorSV
                              .ToArray();
         }
 
-        internal static void EncodeDataSetValues(double mag, double ang, int sampleNumber, byte[] buffer, int bufPos, bool isVoltage = false)
+        internal static void EncodeDataSetValues(double mag, double ang, int sampleNumber, byte[] buffer, ref int bufPos, bool isVoltage = false)
         {
             double instVal = (isVoltage ? kU : kI) * mag * Math.Sin(W * DT * sampleNumber + ang * DegToRad);
 
@@ -23,6 +23,9 @@ namespace GeneratorSV
             buffer[bufPos++] = (byte)(0xFF & value >> 16);
             buffer[bufPos++] = (byte)(0xFF & value >>  8);
             buffer[bufPos++] = (byte)(0xFF & value);
+
+            // Quality
+            bufPos += 4;
         }
 
         const double DT = 1.0 / 4000;
