@@ -62,7 +62,7 @@ namespace GeneratorSV
         {
             stopwatch.Restart();
 
-            publisher.ConfigurationChg();
+            publisher.RunTest();
 
             stopwatch.Stop();
             lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";

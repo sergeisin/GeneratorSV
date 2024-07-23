@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Text;
 using System.Threading.Tasks;
 using SharpPcap;
@@ -197,30 +198,7 @@ namespace GeneratorSV
             });
         }
 
-
-        public bool HasVlan
-        {
-            get { return config.hasVlan; }
-
-            set
-            {
-                config.hasVlan = value;
-                ResetFrames();
-            }
-        }
-
-        public bool Simulated
-        {
-            get { return config.simulated; }
-
-            set
-            {
-                config.simulated = value;
-                ResetFrames();
-            }
-        }
-
-        public void ConfigurationChg()
+        public void RunTest()
         {
             config.confRev++;
 
@@ -229,6 +207,215 @@ namespace GeneratorSV
             config.Ic_mag += 100.0;
 
             ResetFrames();
+        }
+
+        #endregion
+
+        #region Frame properties
+
+        public bool HasVlan
+        {
+            get { return config.hasVlan; }
+            set
+            { 
+                config.hasVlan = value;
+                ResetFrames();
+            }
+        }
+
+        public bool Simulated
+        {
+            get { return config.simulated; }
+            set
+            {
+                config.simulated = value;
+                ResetFrames();
+            }
+        }
+
+        public uint ConfRev
+        {
+            get { return config.confRev; }
+
+            set
+            {
+                config.confRev = value;
+                ResetFrames();
+            }
+        }
+
+        public byte SmpSynch
+        {
+            get { return config.smpSynch; }
+            set
+            {
+                config.smpSynch = value;
+                ResetFrames();
+            }
+        }
+
+        #endregion
+
+        #region Three-phase system properties 
+
+        public double Ia_mag
+        {
+            get { return config.Ia_mag; }
+            set
+            {
+                config.Ia_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ia_ang
+        {
+            get { return config.Ia_ang; }
+            set
+            {
+                config.Ia_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ib_mag
+        {
+            get { return config.Ib_mag; }
+            set
+            {
+                config.Ib_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ib_ang
+        {
+            get { return config.Ib_ang; }
+            set
+            {
+                config.Ib_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ic_mag
+        {
+            get { return config.Ic_mag; }
+            set
+            {
+                config.Ic_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ic_ang
+        {
+            get { return config.Ic_ang; }
+            set
+            {
+                config.Ic_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double I0_mag
+        {
+            get { return config.I0_mag; }
+            set
+            {
+                config.I0_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double I0_ang
+        {
+            get { return config.I0_ang; }
+            set
+            {
+                config.I0_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ua_mag
+        {
+            get { return config.Ua_mag; }
+            set
+            {
+                config.Ua_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ua_ang
+        {
+            get { return config.Ua_ang; }
+            set
+            {
+                config.Ua_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ub_mag
+        {
+            get { return config.Ub_mag; }
+            set
+            {
+                config.Ub_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Ub_ang
+        {
+            get { return config.Ub_ang; }
+            set
+            {
+                config.Ub_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double Uc_mag
+        {
+            get { return config.Uc_mag; }
+            set
+            {
+                config.Uc_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double Uc_ang
+        {
+            get { return config.Uc_ang; }
+            set
+            {
+                config.Uc_ang = value;
+                ResetFrames();
+            }
+        }
+
+        public double U0_mag
+        {
+            get { return config.U0_mag; }
+            set
+            {
+                config.U0_mag = value;
+                ResetFrames();
+            }
+        }
+
+        public double U0_ang
+        {
+            get { return config.U0_ang; }
+            set
+            {
+                config.U0_ang = value;
+                ResetFrames();
+            }
         }
 
         #endregion
