@@ -17,13 +17,8 @@ namespace GeneratorSV
             publisher = new SVPublisher(interfaceName: "Ethernet 3", new SVConfig()
             {
                 dstMac = "01-0c-cd-04-00-01",
-                srcMac = null,
-
-                hasVlan = true,
                 vlanID = "005",
-
                 appID = 0x4000,
-                simulated = false,
                 svID = "GENERATOR_SV",
                 confRev = 10000,
                 smpSynch = 2,
@@ -69,6 +64,26 @@ namespace GeneratorSV
 
             publisher.ConfigurationChg();
 
+            stopwatch.Stop();
+            lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";
+        }
+
+        private void VlanBox_CheckedChanged(object sender, EventArgs e)
+        {
+            stopwatch.Restart();
+
+            publisher.HasVlan = (sender as CheckBox).Checked;
+
+            stopwatch.Stop();
+            lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";
+        }
+
+        private void SimBox_CheckedChanged(object sender, EventArgs e)
+        {
+            stopwatch.Restart();
+
+            publisher.Simulated = (sender as CheckBox).Checked;
+            
             stopwatch.Stop();
             lable.Text = $"Elapsed: {stopwatch.ElapsedMilliseconds} ms";
         }

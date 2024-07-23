@@ -24,6 +24,8 @@
             this.runButton = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
             this.lable = new System.Windows.Forms.Label();
+            this.vlanBox = new System.Windows.Forms.CheckBox();
+            this.simBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // runButton
@@ -58,11 +60,35 @@
             this.lable.TabIndex = 2;
             this.lable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // vlanBox
+            // 
+            this.vlanBox.AutoSize = true;
+            this.vlanBox.Location = new System.Drawing.Point(180, 19);
+            this.vlanBox.Name = "vlanBox";
+            this.vlanBox.Size = new System.Drawing.Size(73, 17);
+            this.vlanBox.TabIndex = 3;
+            this.vlanBox.Text = "Use VLan";
+            this.vlanBox.UseVisualStyleBackColor = true;
+            this.vlanBox.CheckedChanged += new System.EventHandler(this.VlanBox_CheckedChanged);
+            // 
+            // simBox
+            // 
+            this.simBox.AutoSize = true;
+            this.simBox.Location = new System.Drawing.Point(180, 50);
+            this.simBox.Name = "simBox";
+            this.simBox.Size = new System.Drawing.Size(72, 17);
+            this.simBox.TabIndex = 4;
+            this.simBox.Text = "Simulated";
+            this.simBox.UseVisualStyleBackColor = true;
+            this.simBox.CheckedChanged += new System.EventHandler(this.SimBox_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.simBox);
+            this.Controls.Add(this.vlanBox);
             this.Controls.Add(this.lable);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.runButton);
@@ -71,6 +97,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -79,5 +106,7 @@
         private System.Windows.Forms.Button runButton;
         private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Label lable;
+        private System.Windows.Forms.CheckBox vlanBox;
+        private System.Windows.Forms.CheckBox simBox;
     }
 }

@@ -197,6 +197,29 @@ namespace GeneratorSV
             });
         }
 
+
+        public bool HasVlan
+        {
+            get { return config.hasVlan; }
+
+            set
+            {
+                config.hasVlan = value;
+                ResetFrames();
+            }
+        }
+
+        public bool Simulated
+        {
+            get { return config.simulated; }
+
+            set
+            {
+                config.simulated = value;
+                ResetFrames();
+            }
+        }
+
         public void ConfigurationChg()
         {
             config.confRev++;
