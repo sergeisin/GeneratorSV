@@ -23,7 +23,6 @@
         {
             this.runButton = new System.Windows.Forms.Button();
             this.testButton = new System.Windows.Forms.Button();
-            this.lable = new System.Windows.Forms.Label();
             this.vlanBox = new System.Windows.Forms.CheckBox();
             this.simBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -48,17 +47,6 @@
             this.testButton.Text = "Run Test";
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.TestButton_Click);
-            // 
-            // lable
-            // 
-            this.lable.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lable.Location = new System.Drawing.Point(0, 236);
-            this.lable.Margin = new System.Windows.Forms.Padding(1);
-            this.lable.Name = "lable";
-            this.lable.Padding = new System.Windows.Forms.Padding(5);
-            this.lable.Size = new System.Drawing.Size(384, 25);
-            this.lable.TabIndex = 2;
-            this.lable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // vlanBox
             // 
@@ -89,13 +77,13 @@
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.simBox);
             this.Controls.Add(this.vlanBox);
-            this.Controls.Add(this.lable);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.runButton);
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -105,7 +93,6 @@
 
         private System.Windows.Forms.Button runButton;
         private System.Windows.Forms.Button testButton;
-        private System.Windows.Forms.Label lable;
         private System.Windows.Forms.CheckBox vlanBox;
         private System.Windows.Forms.CheckBox simBox;
     }

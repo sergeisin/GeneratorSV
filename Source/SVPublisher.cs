@@ -6,24 +6,25 @@ using SharpPcap.LibPcap;
 
 namespace GeneratorSV
 {
-    class SVPublisher
+    class SVPublisher : IDisposable
     {
         private LibPcapLiveDevice device;
         private SendQueue squeue;
         private Task sendingTask;
+
         private SVConfig config;
-        private DataSetValues dataSet;
+        private DataSetValues values;
 
-        public SVPublisher(string interfaceName, SVConfig configuration)
+        public SVPublisher(string interfaceName, SVConfig configuration, DataSetValues dataSetValues = null)
         {
-            dataSet = new DataSetValues();
+            values = dataSetValues ?? new DataSetValues();
+            config = configuration ?? new SVConfig();
 
-            config = configuration;
-            InitDevice(interfaceName);
+            OpenDevice(interfaceName);
             ResetFrames();
         }
 
-        private void InitDevice(string interfaceName)
+        private void OpenDevice(string interfaceName)
         {
             foreach (var liveDevice in LibPcapLiveDeviceList.Instance)
             {
@@ -152,20 +153,21 @@ namespace GeneratorSV
                 frame[smpCntPos + 1] = (byte)(i & 0xFF);
 
                 // Currents
-                Encoder.EncodeDataSetValues(dataSet.Ia_mag, dataSet.Ia_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(dataSet.Ib_mag, dataSet.Ib_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(dataSet.Ic_mag, dataSet.Ic_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(dataSet.I0_mag, dataSet.I0_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(values.Ia_mag, values.Ia_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(values.Ib_mag, values.Ib_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(values.Ic_mag, values.Ic_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(values.I0_mag, values.I0_ang, i, frame, ref bufPos);
 
                 // Voltages
-                Encoder.EncodeDataSetValues(dataSet.Ua_mag, dataSet.Ua_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(dataSet.Ub_mag, dataSet.Ub_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(dataSet.Uc_mag, dataSet.Uc_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(dataSet.U0_mag, dataSet.U0_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(values.Ua_mag, values.Ua_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(values.Ub_mag, values.Ub_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(values.Uc_mag, values.Uc_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(values.U0_mag, values.U0_ang, i, frame, ref bufPos, isVoltage: true);
 
                 tmpQueue.Add(frame, 0, i * 250);
             }
 
+            // Swap send queues
             SendQueue toDispose = squeue;
             squeue = tmpQueue;
 
@@ -196,17 +198,6 @@ namespace GeneratorSV
             {
                 sendingTask.Wait();
             });
-        }
-
-        public void RunTest()
-        {
-            config.confRev++;
-
-            dataSet.Ia_mag += 100.0;
-            dataSet.Ib_mag += 100.0;
-            dataSet.Ic_mag += 100.0;
-
-            ResetFrames();
         }
 
         public bool HasVlan
@@ -252,13 +243,25 @@ namespace GeneratorSV
 
         public DataSetValues DataSet
         {
-            get { return dataSet; }
+            get { return values; }
 
             set
             {
-                dataSet = value;
+                values = value;
                 ResetFrames();
             }
+        }
+
+        public void Dispose()
+        {
+            if (IsRunning)
+            {
+                IsRunning = false;
+                sendingTask.Wait();
+            }
+
+            squeue.Dispose();
+            device.Dispose();
         }
     }
 }
