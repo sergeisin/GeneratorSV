@@ -21,22 +21,28 @@ namespace GeneratorSV
                 appID = 0x4000,
                 svID = "GENERATOR_SV",
                 confRev = 10000,
-                smpSynch = 2,
-
-                Ia_mag = 100,
-                Ia_ang = 30,
-                Ib_mag = 100,
-                Ib_ang = 210,
-                Ic_mag = 100,
-                Ic_ang = 90,
-
-                Ua_mag = 10000,
-                Ua_ang = 0,
-                Ub_mag = 10000,
-                Ub_ang = 240,
-                Uc_mag = 10000,
-                Uc_ang = 120,
+                smpSynch = 2
             });
+
+            DataSetValues dataSet = publisher.DataSet;
+
+            dataSet.Ia_mag = 100;
+            dataSet.Ib_mag = 100;
+            dataSet.Ic_mag = 100;
+
+            dataSet.Ia_ang =  30;
+            dataSet.Ib_ang = 210;
+            dataSet.Ic_ang =  90;
+
+            dataSet.Ua_mag = 10_000;
+            dataSet.Ub_mag = 10_000;
+            dataSet.Uc_mag = 10_000;
+
+            dataSet.Ua_ang =   0;
+            dataSet.Ub_ang = 240;
+            dataSet.Uc_ang =  12;
+
+            publisher.DataSet = dataSet;
         }
 
         private void RunButton_Click(object sender, EventArgs e)

@@ -46,33 +46,5 @@
         /// Stream time synchronization type
         /// </summary>
         public byte smpSynch;
-
-        #region Three-phase system configuration
-
-        public double Ia_mag;
-        public double Ia_ang;
-
-        public double Ib_mag;
-        public double Ib_ang;
-
-        public double Ic_mag;
-        public double Ic_ang;
-
-        public double I0_mag;
-        public double I0_ang;
-
-        public double Ua_mag;
-        public double Ua_ang;
-
-        public double Ub_mag;
-        public double Ub_ang;
-
-        public double Uc_mag;
-        public double Uc_ang;
-
-        public double U0_mag;
-        public double U0_ang;
-
-        #endregion
     }
 }

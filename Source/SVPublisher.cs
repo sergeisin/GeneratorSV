@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Text;
 using System.Threading.Tasks;
 using SharpPcap;
@@ -13,9 +12,12 @@ namespace GeneratorSV
         private SendQueue squeue;
         private Task sendingTask;
         private SVConfig config;
+        private DataSetValues dataSet;
 
         public SVPublisher(string interfaceName, SVConfig configuration)
         {
+            dataSet = new DataSetValues();
+
             config = configuration;
             InitDevice(interfaceName);
             ResetFrames();
@@ -150,16 +152,16 @@ namespace GeneratorSV
                 frame[smpCntPos + 1] = (byte)(i & 0xFF);
 
                 // Currents
-                Encoder.EncodeDataSetValues(config.Ia_mag, config.Ia_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(config.Ib_mag, config.Ib_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(config.Ic_mag, config.Ic_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(config.I0_mag, config.I0_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(dataSet.Ia_mag, dataSet.Ia_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(dataSet.Ib_mag, dataSet.Ib_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(dataSet.Ic_mag, dataSet.Ic_ang, i, frame, ref bufPos);
+                Encoder.EncodeDataSetValues(dataSet.I0_mag, dataSet.I0_ang, i, frame, ref bufPos);
 
                 // Voltages
-                Encoder.EncodeDataSetValues(config.Ua_mag, config.Ua_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(config.Ub_mag, config.Ub_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(config.Uc_mag, config.Uc_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(config.U0_mag, config.U0_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(dataSet.Ua_mag, dataSet.Ua_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(dataSet.Ub_mag, dataSet.Ub_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(dataSet.Uc_mag, dataSet.Uc_ang, i, frame, ref bufPos, isVoltage: true);
+                Encoder.EncodeDataSetValues(dataSet.U0_mag, dataSet.U0_ang, i, frame, ref bufPos, isVoltage: true);
 
                 tmpQueue.Add(frame, 0, i * 250);
             }
@@ -172,9 +174,7 @@ namespace GeneratorSV
             GC.Collect();
             GC.GetTotalMemory(true);
         }
-
-        #region API
-
+        
         public bool IsRunning { get; private set; }
 
         public void Start()
@@ -202,16 +202,12 @@ namespace GeneratorSV
         {
             config.confRev++;
 
-            config.Ia_mag += 100.0;
-            config.Ib_mag += 100.0;
-            config.Ic_mag += 100.0;
+            dataSet.Ia_mag += 100.0;
+            dataSet.Ib_mag += 100.0;
+            dataSet.Ic_mag += 100.0;
 
             ResetFrames();
         }
-
-        #endregion
-
-        #region Frame properties
 
         public bool HasVlan
         {
@@ -254,170 +250,15 @@ namespace GeneratorSV
             }
         }
 
-        #endregion
-
-        #region Three-phase system properties 
-
-        public double Ia_mag
+        public DataSetValues DataSet
         {
-            get { return config.Ia_mag; }
+            get { return dataSet; }
+
             set
             {
-                config.Ia_mag = value;
+                dataSet = value;
                 ResetFrames();
             }
         }
-
-        public double Ia_ang
-        {
-            get { return config.Ia_ang; }
-            set
-            {
-                config.Ia_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ib_mag
-        {
-            get { return config.Ib_mag; }
-            set
-            {
-                config.Ib_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ib_ang
-        {
-            get { return config.Ib_ang; }
-            set
-            {
-                config.Ib_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ic_mag
-        {
-            get { return config.Ic_mag; }
-            set
-            {
-                config.Ic_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ic_ang
-        {
-            get { return config.Ic_ang; }
-            set
-            {
-                config.Ic_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double I0_mag
-        {
-            get { return config.I0_mag; }
-            set
-            {
-                config.I0_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double I0_ang
-        {
-            get { return config.I0_ang; }
-            set
-            {
-                config.I0_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ua_mag
-        {
-            get { return config.Ua_mag; }
-            set
-            {
-                config.Ua_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ua_ang
-        {
-            get { return config.Ua_ang; }
-            set
-            {
-                config.Ua_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ub_mag
-        {
-            get { return config.Ub_mag; }
-            set
-            {
-                config.Ub_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double Ub_ang
-        {
-            get { return config.Ub_ang; }
-            set
-            {
-                config.Ub_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double Uc_mag
-        {
-            get { return config.Uc_mag; }
-            set
-            {
-                config.Uc_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double Uc_ang
-        {
-            get { return config.Uc_ang; }
-            set
-            {
-                config.Uc_ang = value;
-                ResetFrames();
-            }
-        }
-
-        public double U0_mag
-        {
-            get { return config.U0_mag; }
-            set
-            {
-                config.U0_mag = value;
-                ResetFrames();
-            }
-        }
-
-        public double U0_ang
-        {
-            get { return config.U0_ang; }
-            set
-            {
-                config.U0_ang = value;
-                ResetFrames();
-            }
-        }
-
-        #endregion
     }
 }
