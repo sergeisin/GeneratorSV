@@ -22,7 +22,6 @@
         private void InitializeComponent()
         {
             this.runButton = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
             this.vlanBox = new System.Windows.Forms.CheckBox();
             this.simBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -38,20 +37,10 @@
             this.runButton.UseVisualStyleBackColor = true;
             this.runButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(12, 43);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(80, 25);
-            this.testButton.TabIndex = 1;
-            this.testButton.Text = "Run Test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.TestButton_Click);
-            // 
             // vlanBox
             // 
             this.vlanBox.AutoSize = true;
-            this.vlanBox.Location = new System.Drawing.Point(180, 19);
+            this.vlanBox.Location = new System.Drawing.Point(12, 50);
             this.vlanBox.Name = "vlanBox";
             this.vlanBox.Size = new System.Drawing.Size(73, 17);
             this.vlanBox.TabIndex = 3;
@@ -62,7 +51,7 @@
             // simBox
             // 
             this.simBox.AutoSize = true;
-            this.simBox.Location = new System.Drawing.Point(180, 50);
+            this.simBox.Location = new System.Drawing.Point(12, 73);
             this.simBox.Name = "simBox";
             this.simBox.Size = new System.Drawing.Size(72, 17);
             this.simBox.TabIndex = 4;
@@ -77,7 +66,6 @@
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.simBox);
             this.Controls.Add(this.vlanBox);
-            this.Controls.Add(this.testButton);
             this.Controls.Add(this.runButton);
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "MainForm";
@@ -92,7 +80,6 @@
         #endregion
 
         private System.Windows.Forms.Button runButton;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.CheckBox vlanBox;
         private System.Windows.Forms.CheckBox simBox;
     }

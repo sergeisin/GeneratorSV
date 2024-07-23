@@ -6,13 +6,23 @@ namespace GeneratorSV
 {
     public partial class MainForm : Form
     {
-        SVPublisher publisher;
+        private SVPublisher publisher;
         
         public MainForm()
         {
             InitializeComponent();
 
-            var dataSetValues = new DataSetValues()
+            var svConfig = new SVConfig()
+            {
+                dstMac   = "01-0c-cd-04-00-01",
+                vlanID   = 0x005,
+                appID    = 0x4000,
+                svID     = "GENERATOR_SV",
+                confRev  = 10000,
+                smpSynch = 2
+            };
+
+            var dataConfig = new DataConfig()
             {
                 Ia_mag = 100,       Ia_ang =  30,
                 Ib_mag = 100,       Ib_ang = 210,
@@ -23,17 +33,7 @@ namespace GeneratorSV
                 Uc_mag = 10_000,    Uc_ang =  12,
             };
 
-            var svConfig = new SVConfig()
-            {
-                dstMac = "01-0c-cd-04-00-01",
-                vlanID = "005",
-                appID = 0x4000,
-                svID = "GENERATOR_SV",
-                confRev = 10000,
-                smpSynch = 2
-            };
-
-            publisher = new SVPublisher(interfaceName: "Ethernet 3", svConfig, dataSetValues);
+            publisher = new SVPublisher(interfaceName: "Ethernet 3", svConfig, dataConfig);
         }
 
         private void RunButton_Click(object sender, EventArgs e)

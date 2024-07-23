@@ -2,9 +2,9 @@
 namespace GeneratorSV
 {
     /// <summary>
-    /// Stores data set values - 4 currents and 4 voltages
+    /// Stores parameters of complex values of 4 currents and 4 voltages
     /// </summary>
-    public class DataSetValues
+    public class DataConfig
     {
         public double Ia_mag { get; set; }
         public double Ia_ang { get; set; }

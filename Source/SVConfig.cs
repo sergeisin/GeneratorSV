@@ -1,5 +1,8 @@
 ﻿namespace GeneratorSV
 {
+    /// <summary>
+    /// Stores sampler values control block parameters
+    /// </summary>
     internal class SVConfig
     {
         /// <summary>
@@ -8,22 +11,17 @@
         public string dstMac;
 
         /// <summary>
-        /// Source MAC-addres (12 hex digits)
-        /// </summary>
-        public string srcMac;
-
-        /// <summary>
         /// Adding VLan tag to SV frame
         /// </summary>
         public bool hasVlan;
 
         /// <summary>
-        /// VLan ID (3 hex digits)
+        /// Virtual lan ID in range 0x000 - 0xFFF
         /// </summary>
-        public string vlanID;
+        public ushort vlanID;
 
         /// <summary>
-        /// Application ID is range 0x4000 - 0x7FFF
+        /// Application ID in range 0x4000 - 0x7FFF
         /// </summary>
         public ushort appID;
 

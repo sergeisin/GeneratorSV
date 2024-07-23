@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using SharpPcap;
@@ -13,14 +14,15 @@ namespace GeneratorSV
         private Task sendingTask;
 
         private SVConfig config;
-        private DataSetValues values;
+        private DataConfig data;
 
-        public SVPublisher(string interfaceName, SVConfig configuration, DataSetValues dataSetValues = null)
+        public SVPublisher(string interfaceName, SVConfig svConfig, DataConfig dataConfig = null)
         {
-            values = dataSetValues ?? new DataSetValues();
-            config = configuration ?? new SVConfig();
+            config = svConfig ?? new SVConfig();
+            data = dataConfig ?? new DataConfig();
 
             OpenDevice(interfaceName);
+
             ResetFrames();
         }
 
@@ -42,22 +44,17 @@ namespace GeneratorSV
 
         private void ResetFrames()
         {
-            if (config.srcMac is null) config.srcMac = device.MacAddress.ToString();
-            if (config.dstMac is null) config.dstMac = "01-0C-CD-04-00-00";
-
-            if (config.svID   is null) config.svID   = "GENERATOR_SV";
+            if (config.svID is null) config.svID = "GENERATOR_SV";
             if (config.svID.Length > 35)
                 throw new FormatException("Max svID length is 35 characters!");
 
-            // MAC
-            string eHeader = (config.dstMac + config.srcMac).Replace("-", "").Replace(":", "").Replace(" ", "");
+            if (config.dstMac is null)
+                config.dstMac = "01-0C-CD-04-00-00";
+            else
+                config.dstMac = config.dstMac.Replace(":", "").Replace(" ", "").ToUpper();
 
-            // Vlan tag
-            if (config.hasVlan) 
-                eHeader += "8100" + "8" + config.vlanID;
-
-            // SV ethertype
-            eHeader += "88ba";
+            var srcMAC = device.MacAddress;
+            var dstMAC = PhysicalAddress.Parse(config.dstMac);
 
             // Lengths calculating
             int length_svID = config.svID.Length;
@@ -65,17 +62,36 @@ namespace GeneratorSV
             int length_SEQ  = length_svID +  87;
             int length_PDU  = length_svID +  92;
             int length_SV   = length_svID + 102;
-
-            int offset = config.hasVlan ? 18 : 14;
-            int frameLength = length_SV + offset;
+            int frameLength = length_SV + (config.hasVlan ? 18 : 14);
 
             // These magic numbers are only applicable for the 9-2LE format with svID length <= 35
             // This solution avoids 'long form' TLV length encoding (if L > 127)
 
             byte[] frame = new byte[frameLength];
-            
-            // Ethernet header + VLan
-            Encoder.StringToByteArray(eHeader).CopyTo(frame, 0);
+            int offset = 0;
+
+            // DstMAC
+            dstMAC.GetAddressBytes().CopyTo(frame, offset);
+            offset += 6;
+
+            // SrcMAC
+            srcMAC.GetAddressBytes().CopyTo(frame, offset);
+            offset += 6;
+
+            if (config.hasVlan)
+            {
+                // VLan ethertype
+                frame[offset++] = 0x81;
+                frame[offset++] = 0x00;
+
+                uint vlanID = config.vlanID + 0x8000u;
+                frame[offset++] = (byte)(vlanID >> 8);
+                frame[offset++] = (byte)(vlanID & 0xFF);
+            }
+
+            // Sampled values ethertype
+            frame[offset++] = 0x88;
+            frame[offset++] = 0xba;
 
             // AppID
             frame[offset++] = (byte)(config.appID >> 8);
@@ -142,7 +158,7 @@ namespace GeneratorSV
             frame[offset++] = 0x87;
             frame[offset++] = 0x40;
             
-            SendQueue tmpQueue = new SendQueue(5000 * frameLength, TimestampResolution.Microsecond);
+            SendQueue newQueue = new SendQueue(5000 * frameLength, TimestampResolution.Microsecond);
 
             for (int i = 0; i < 4000; i++)
             {
@@ -153,30 +169,52 @@ namespace GeneratorSV
                 frame[smpCntPos + 1] = (byte)(i & 0xFF);
 
                 // Currents
-                Encoder.EncodeDataSetValues(values.Ia_mag, values.Ia_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(values.Ib_mag, values.Ib_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(values.Ic_mag, values.Ic_ang, i, frame, ref bufPos);
-                Encoder.EncodeDataSetValues(values.I0_mag, values.I0_ang, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ia_mag, data.Ia_ang, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ib_mag, data.Ib_ang, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ic_mag, data.Ic_ang, i, frame, ref bufPos);
+                EncodeDataSetValues(data.I0_mag, data.I0_ang, i, frame, ref bufPos);
 
                 // Voltages
-                Encoder.EncodeDataSetValues(values.Ua_mag, values.Ua_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(values.Ub_mag, values.Ub_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(values.Uc_mag, values.Uc_ang, i, frame, ref bufPos, isVoltage: true);
-                Encoder.EncodeDataSetValues(values.U0_mag, values.U0_ang, i, frame, ref bufPos, isVoltage: true);
+                EncodeDataSetValues(data.Ua_mag, data.Ua_ang, i, frame, ref bufPos, isVoltage: true);
+                EncodeDataSetValues(data.Ub_mag, data.Ub_ang, i, frame, ref bufPos, isVoltage: true);
+                EncodeDataSetValues(data.Uc_mag, data.Uc_ang, i, frame, ref bufPos, isVoltage: true);
+                EncodeDataSetValues(data.U0_mag, data.U0_ang, i, frame, ref bufPos, isVoltage: true);
 
-                tmpQueue.Add(frame, 0, i * 250);
+                newQueue.Add(frame, 0, i * 250);
             }
 
             // Swap send queues
             SendQueue toDispose = squeue;
-            squeue = tmpQueue;
+            squeue = newQueue;
 
             toDispose?.Dispose();
 
             GC.Collect();
             GC.GetTotalMemory(true);
         }
-        
+
+        private void EncodeDataSetValues(double mag, double ang, int sampleNumber, byte[] frame, ref int offset, bool isVoltage = false)
+        {
+            const double DT = 1.0 / 4000;
+            const double W = 100 * Math.PI;
+            const double DegToRad = Math.PI / 180.0;
+
+            const double kI = 1414.2135623730951;   // 1000 * sqrt(2)
+            const double kU = 141.42135623730951;   //  100 * sqrt(2)
+
+            double instVal = (isVoltage ? kU : kI) * mag * Math.Sin(W * DT * sampleNumber + ang * DegToRad);
+
+            int value = (int)Math.Round(instVal);
+
+            frame[offset++] = (byte)(0xFF & value >> 24);
+            frame[offset++] = (byte)(0xFF & value >> 16);
+            frame[offset++] = (byte)(0xFF & value >>  8);
+            frame[offset++] = (byte)(0xFF & value);
+
+            // Quality
+            offset += 4;
+        }
+
         public bool IsRunning { get; private set; }
 
         public void Start()
@@ -241,13 +279,13 @@ namespace GeneratorSV
             }
         }
 
-        public DataSetValues DataSet
+        public DataConfig Data
         {
-            get { return values; }
+            get { return data; }
 
             set
             {
-                values = value;
+                data = value;
                 ResetFrames();
             }
         }
