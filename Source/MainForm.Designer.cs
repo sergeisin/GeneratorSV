@@ -49,9 +49,12 @@
             // 
             // lable
             // 
-            this.lable.Location = new System.Drawing.Point(12, 327);
+            this.lable.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lable.Location = new System.Drawing.Point(0, 236);
+            this.lable.Margin = new System.Windows.Forms.Padding(1);
             this.lable.Name = "lable";
-            this.lable.Size = new System.Drawing.Size(200, 25);
+            this.lable.Padding = new System.Windows.Forms.Padding(5);
+            this.lable.Size = new System.Drawing.Size(384, 25);
             this.lable.TabIndex = 2;
             this.lable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -59,12 +62,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 361);
+            this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.lable);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.runButton);
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
             this.ResumeLayout(false);
 

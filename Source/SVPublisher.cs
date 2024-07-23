@@ -200,10 +200,14 @@ namespace GeneratorSV
         public void ConfigurationChg()
         {
             config.confRev++;
+
+            config.Ia_mag += 100.0;
+            config.Ib_mag += 100.0;
+            config.Ic_mag += 100.0;
+
             ResetFrames();
         }
 
         #endregion
     }
 }
-

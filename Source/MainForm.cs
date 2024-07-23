@@ -14,7 +14,7 @@ namespace GeneratorSV
             InitializeComponent();
             
             stopwatch = new Stopwatch();
-            publisher = new SVPublisher(interfaceName: "Ethernet", new SVConfig()
+            publisher = new SVPublisher(interfaceName: "Ethernet 3", new SVConfig()
             {
                 dstMac = "01-0c-cd-04-00-01",
                 srcMac = null,
@@ -24,7 +24,7 @@ namespace GeneratorSV
 
                 appID = 0x4000,
                 simulated = false,
-                svID = "Generator_SV_1",
+                svID = "GENERATOR_SV",
                 confRev = 10000,
                 smpSynch = 2,
 
