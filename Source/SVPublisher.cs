@@ -188,9 +188,6 @@ namespace GeneratorSV
             squeue = newQueue;
 
             toDispose?.Dispose();
-
-            GC.Collect();
-            GC.GetTotalMemory(true);
         }
 
         private void EncodeDataSetValues(double mag, double ang, int sampleNumber, byte[] frame, ref int offset, bool isVoltage = false)
