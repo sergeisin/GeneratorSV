@@ -164,11 +164,11 @@ namespace GeneratorSV
 
         public static bool Validate_ConfRev(string str, out uint confRev)
         {
-            // Decimal or hexadecimal number
-            // In range from 0 to uint.Max
-            // Output type - uint
-
-            throw new NotImplementedException();
+            if (uint.TryParse(str, out confRev))
+            {
+                return true;
+            }
+            return false;
         }
         public static bool Validate_SmpSynch()
         {

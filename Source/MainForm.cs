@@ -124,5 +124,22 @@ namespace GeneratorSV
 
             tBox.Text = publisher.SVCBConfig.AppID.ToString("X4");
         }
+
+        private void TBox_ConfRev_Validated(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            if (SVCBConfig.Validate_ConfRev(tBox.Text, out uint confRev))
+            {
+                publisher.SVCBConfig.ConfRev = confRev;
+            }
+            else
+            {
+                string msg = "This value must be a number";
+                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            tBox.Text = publisher.SVCBConfig.ConfRev.ToString();
+        }
     }
 }

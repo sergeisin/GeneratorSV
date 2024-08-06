@@ -31,6 +31,8 @@
             this.tBox_VlanID = new System.Windows.Forms.TextBox();
             this.label_AppID = new System.Windows.Forms.Label();
             this.tBox_AppID = new System.Windows.Forms.TextBox();
+            this.label_ConfRev = new System.Windows.Forms.Label();
+            this.tBox_ConfRev = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // runButton
@@ -131,7 +133,7 @@
             // 
             // tBox_AppID
             // 
-            this.tBox_AppID.Location = new System.Drawing.Point(102, 60);
+            this.tBox_AppID.Location = new System.Drawing.Point(102, 61);
             this.tBox_AppID.MaxLength = 6;
             this.tBox_AppID.Name = "tBox_AppID";
             this.tBox_AppID.Size = new System.Drawing.Size(80, 20);
@@ -140,11 +142,34 @@
             this.tBox_AppID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tBox_AppID.Validated += new System.EventHandler(this.TBox_AppID_Validated);
             // 
+            // label_ConfRev
+            // 
+            this.label_ConfRev.AutoSize = true;
+            this.label_ConfRev.Location = new System.Drawing.Point(8, 92);
+            this.label_ConfRev.Name = "label_ConfRev";
+            this.label_ConfRev.Size = new System.Drawing.Size(88, 13);
+            this.label_ConfRev.TabIndex = 13;
+            this.label_ConfRev.Text = "ConfRev ( dec ) :";
+            this.label_ConfRev.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tBox_ConfRev
+            // 
+            this.tBox_ConfRev.Location = new System.Drawing.Point(102, 90);
+            this.tBox_ConfRev.MaxLength = 6;
+            this.tBox_ConfRev.Name = "tBox_ConfRev";
+            this.tBox_ConfRev.Size = new System.Drawing.Size(80, 20);
+            this.tBox_ConfRev.TabIndex = 14;
+            this.tBox_ConfRev.Text = "1000";
+            this.tBox_ConfRev.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tBox_ConfRev.Validated += new System.EventHandler(this.TBox_ConfRev_Validated);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 361);
+            this.Controls.Add(this.tBox_ConfRev);
+            this.Controls.Add(this.label_ConfRev);
             this.Controls.Add(this.tBox_AppID);
             this.Controls.Add(this.label_AppID);
             this.Controls.Add(this.tBox_VlanID);
@@ -178,5 +203,7 @@
         private System.Windows.Forms.TextBox tBox_VlanID;
         private System.Windows.Forms.Label label_AppID;
         private System.Windows.Forms.TextBox tBox_AppID;
+        private System.Windows.Forms.Label label_ConfRev;
+        private System.Windows.Forms.TextBox tBox_ConfRev;
     }
 }
