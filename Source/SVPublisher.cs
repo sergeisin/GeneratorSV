@@ -1,9 +1,8 @@
-﻿using SharpPcap;
-using SharpPcap.LibPcap;
-using System;
-using System.Net.NetworkInformation;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using SharpPcap;
+using SharpPcap.LibPcap;
 
 namespace GeneratorSV
 {
@@ -13,19 +12,18 @@ namespace GeneratorSV
         private SendQueue squeue;
         private Task sendingTask;
 
-        private SVCBConfig svcb;
+        private SVCBConfig conf;
         private DataConfig data;
 
-        public SVCBConfig SVCBConfig { get { return svcb; } }
-
+        public SVCBConfig SVCBConfig { get { return conf; } }
         public DataConfig DataConfig { get { return data; } }
 
         public SVPublisher(string interfaceName, SVCBConfig svcbConfig, DataConfig dataConfig)
         {
-            svcb = svcbConfig;
+            conf = svcbConfig;
             data = dataConfig;
 
-            svcb.Changed += ResetFrames;
+            conf.Changed += ResetFrames;
             data.Changed += ResetFrames;
 
             OpenDevice(interfaceName);
@@ -51,16 +49,16 @@ namespace GeneratorSV
 
         private void ResetFrames()
         {
-            if (svcb.SvID.Length > 35)
+            if (conf.SvID.Length > 35)
                 throw new FormatException("Max svID length is 35 characters!");
 
             // Lengths calculating
-            int length_svID = svcb.SvID.Length;
+            int length_svID = conf.SvID.Length;
             int length_ASDU = length_svID +  85;
             int length_SEQ  = length_svID +  87;
             int length_PDU  = length_svID +  92;
             int length_SV   = length_svID + 102;
-            int frameLength = length_SV + (svcb.HasVlan ? 18 : 14);
+            int frameLength = length_SV + (conf.HasVlan ? 18 : 14);
 
             // These magic numbers are only applicable for the 9-2LE format with svID length <= 35
             // This solution avoids 'long form' TLV length encoding (if L > 127)
@@ -73,20 +71,20 @@ namespace GeneratorSV
             frame[offset++] = 0x0C;
             frame[offset++] = 0xCD;
             frame[offset++] = 0x04;
-            frame[offset++] = (byte)(svcb.DstMac >> 8);
-            frame[offset++] = (byte)(svcb.DstMac & 0xFF);
+            frame[offset++] = (byte)(conf.DstMAC >> 8);
+            frame[offset++] = (byte)(conf.DstMAC & 0xFF);
 
             // SrcMAC
             device.MacAddress.GetAddressBytes().CopyTo(frame, offset);
             offset += 6;
 
-            if (svcb.HasVlan)
+            if (conf.HasVlan)
             {
                 // VLan ethertype
                 frame[offset++] = 0x81;
                 frame[offset++] = 0x00;
 
-                uint vlanID = svcb.VlanID + 0x8000u;
+                uint vlanID = conf.VlanID + 0x8000u;
                 frame[offset++] = (byte)(vlanID >> 8);
                 frame[offset++] = (byte)(vlanID & 0xFF);
             }
@@ -96,15 +94,15 @@ namespace GeneratorSV
             frame[offset++] = 0xba;
 
             // AppID
-            frame[offset++] = (byte)(svcb.AppID >> 8);
-            frame[offset++] = (byte)(svcb.AppID & 0xFF);
+            frame[offset++] = (byte)(conf.AppID >> 8);
+            frame[offset++] = (byte)(conf.AppID & 0xFF);
 
             // Length
             frame[offset++] = (byte)(length_SV >> 8);
             frame[offset++] = (byte)(length_SV & 0xFF);
 
             // Reserved
-            frame[offset++] = (byte)(svcb.Simulated ? 0x80 : 0x00);
+            frame[offset++] = (byte)(conf.Simulated ? 0x80 : 0x00);
             offset += 3;
 
             // savPdu
@@ -127,7 +125,7 @@ namespace GeneratorSV
             // svID
             frame[offset++] = 0x80;
             frame[offset++] = (byte)length_svID;
-            Encoding.ASCII.GetBytes(svcb.SvID).CopyTo(frame, offset);
+            Encoding.ASCII.GetBytes(conf.SvID).CopyTo(frame, offset);
             offset += length_svID;
 
             // smpCnt
@@ -140,15 +138,15 @@ namespace GeneratorSV
             // confRev
             frame[offset++] = 0x83;
             frame[offset++] = 0x04;
-            frame[offset++] = (byte)(0xFF & svcb.ConfRev >> 24);
-            frame[offset++] = (byte)(0xFF & svcb.ConfRev >> 16);
-            frame[offset++] = (byte)(0xFF & svcb.ConfRev >>  8);
-            frame[offset++] = (byte)(0xFF & svcb.ConfRev);
+            frame[offset++] = (byte)(0xFF & conf.ConfRev >> 24);
+            frame[offset++] = (byte)(0xFF & conf.ConfRev >> 16);
+            frame[offset++] = (byte)(0xFF & conf.ConfRev >>  8);
+            frame[offset++] = (byte)(0xFF & conf.ConfRev);
 
             // smpSynch
             frame[offset++] = 0x85;
             frame[offset++] = 0x01;
-            frame[offset++] = svcb.SmpSynch;
+            frame[offset++] = conf.SmpSynch;
 
             // smpRate = 80
             frame[offset++] = 0x86;

@@ -1,4 +1,7 @@
-﻿namespace GeneratorSV
+﻿using System;
+using System.Globalization;
+
+namespace GeneratorSV
 {
     /// <summary>
     /// Stores SV control block parameters
@@ -8,7 +11,7 @@
         /// <summary>
         /// Destination MAC-address (last two octets in range 0x0000 .. 0x01FF)
         /// </summary>
-        public ushort DstMac
+        public ushort DstMAC
         {
             get { return dstMac_; }
             set
@@ -116,6 +119,56 @@
             }
         }
         private byte smpSynch_;
+
+
+        public static bool Validate_DstMAC(string str, out ushort dstMac)
+        {
+            // Two hex octets string XX-XX
+
+            if (ushort.TryParse(str.Replace("-", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out dstMac))
+            {
+                if (dstMac <= 0x01FF)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool Validate_VlanID()
+        {
+            // Decimal or hexadecimal number
+            // In range from 0 to 0x0FFF
+            // Output type - ushort
+
+            throw new NotImplementedException();
+        }
+
+        public static bool Validate_AppID()
+        {
+            // Decimal or hexadecimal number
+            // In range from 0x4000 to 0x7FFF
+            // Output type - ushort
+
+            throw new NotImplementedException();
+        }
+
+        public static bool Validate_ConfRev()
+        {
+            // Decimal or hexadecimal number
+            // In range from 0 to uint.Max
+            // Output type - uint
+
+            throw new NotImplementedException();
+        }
+        public static bool Validate_SmpSynch()
+        {
+            // Decimal or hexadecimal number
+            // In range from 0 to 0xFF
+            // Output type - byte
+
+            throw new NotImplementedException();
+        }
 
         public delegate void ChangedEventHandler();
         public event ChangedEventHandler Changed;

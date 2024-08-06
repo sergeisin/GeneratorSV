@@ -13,7 +13,7 @@ namespace GeneratorSV
 
             var svcbConfig = new SVCBConfig()
             {
-                DstMac   = 0x0001,
+                DstMAC   = 0x0001,
                 VlanID   = 0x0005,
                 AppID    = 0x4000,
                 SvID     = "GENERATOR_SV",
@@ -59,11 +59,6 @@ namespace GeneratorSV
             publisher.SVCBConfig.Simulated = (sender as CheckBox).Checked;
         }
 
-        private void TextBox_SvID_Validated(object sender, EventArgs e)
-        {
-            publisher.SVCBConfig.SvID = textBox_SvID.Text;
-        }
-
         private void MainForm_Click(object sender, EventArgs e)
         {
             Validate();
@@ -72,6 +67,33 @@ namespace GeneratorSV
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             publisher.Dispose();
+        }
+
+        private void testField_Validated(object sender, EventArgs e)
+        {
+            publisher.SVCBConfig.AppID = (ushort)testField.Value;
+        }
+
+        private void tBox_SvID_Validated(object sender, EventArgs e)
+        {
+            publisher.SVCBConfig.SvID = tBox_SvID.Text;
+        }
+
+        private void tBox_DstMAC_Validated(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            if (SVCBConfig.Validate_DstMAC(tBox.Text, out ushort dstMac))
+            {
+                publisher.SVCBConfig.DstMAC = dstMac;
+            }
+            else
+            {
+                string msg  = "The valid range is from 00-00 to 01-FF";
+                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
         }
     }
 }
