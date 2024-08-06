@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SharpPcap;
+using SharpPcap.LibPcap;
+using System;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
-using SharpPcap;
-using SharpPcap.LibPcap;
 
 namespace GeneratorSV
 {
@@ -13,13 +13,20 @@ namespace GeneratorSV
         private SendQueue squeue;
         private Task sendingTask;
 
-        private SVConfig config;
+        private SVCBConfig svcb;
         private DataConfig data;
 
-        public SVPublisher(string interfaceName, SVConfig svConfig, DataConfig dataConfig = null)
+        public SVCBConfig SVCBConfig { get { return svcb; } }
+
+        public DataConfig DataConfig { get { return data; } }
+
+        public SVPublisher(string interfaceName, SVCBConfig svcbConfig, DataConfig dataConfig)
         {
-            config = svConfig ?? new SVConfig();
-            data = dataConfig ?? new DataConfig();
+            svcb = svcbConfig;
+            data = dataConfig;
+
+            svcb.Changed += ResetFrames;
+            data.Changed += ResetFrames;
 
             OpenDevice(interfaceName);
 
@@ -44,25 +51,16 @@ namespace GeneratorSV
 
         private void ResetFrames()
         {
-            if (config.svID is null) config.svID = "GENERATOR_SV";
-            if (config.svID.Length > 35)
+            if (svcb.SvID.Length > 35)
                 throw new FormatException("Max svID length is 35 characters!");
 
-            if (config.dstMac is null)
-                config.dstMac = "01-0C-CD-04-00-00";
-            else
-                config.dstMac = config.dstMac.Replace(":", "").Replace(" ", "").ToUpper();
-
-            var srcMAC = device.MacAddress;
-            var dstMAC = PhysicalAddress.Parse(config.dstMac);
-
             // Lengths calculating
-            int length_svID = config.svID.Length;
+            int length_svID = svcb.SvID.Length;
             int length_ASDU = length_svID +  85;
             int length_SEQ  = length_svID +  87;
             int length_PDU  = length_svID +  92;
             int length_SV   = length_svID + 102;
-            int frameLength = length_SV + (config.hasVlan ? 18 : 14);
+            int frameLength = length_SV + (svcb.HasVlan ? 18 : 14);
 
             // These magic numbers are only applicable for the 9-2LE format with svID length <= 35
             // This solution avoids 'long form' TLV length encoding (if L > 127)
@@ -71,20 +69,24 @@ namespace GeneratorSV
             int offset = 0;
 
             // DstMAC
-            dstMAC.GetAddressBytes().CopyTo(frame, offset);
-            offset += 6;
+            frame[offset++] = 0x01;
+            frame[offset++] = 0x0C;
+            frame[offset++] = 0xCD;
+            frame[offset++] = 0x04;
+            frame[offset++] = (byte)(svcb.DstMac >> 8);
+            frame[offset++] = (byte)(svcb.DstMac & 0xFF);
 
             // SrcMAC
-            srcMAC.GetAddressBytes().CopyTo(frame, offset);
+            device.MacAddress.GetAddressBytes().CopyTo(frame, offset);
             offset += 6;
 
-            if (config.hasVlan)
+            if (svcb.HasVlan)
             {
                 // VLan ethertype
                 frame[offset++] = 0x81;
                 frame[offset++] = 0x00;
 
-                uint vlanID = config.vlanID + 0x8000u;
+                uint vlanID = svcb.VlanID + 0x8000u;
                 frame[offset++] = (byte)(vlanID >> 8);
                 frame[offset++] = (byte)(vlanID & 0xFF);
             }
@@ -94,15 +96,15 @@ namespace GeneratorSV
             frame[offset++] = 0xba;
 
             // AppID
-            frame[offset++] = (byte)(config.appID >> 8);
-            frame[offset++] = (byte)(config.appID & 0xFF);
+            frame[offset++] = (byte)(svcb.AppID >> 8);
+            frame[offset++] = (byte)(svcb.AppID & 0xFF);
 
             // Length
             frame[offset++] = (byte)(length_SV >> 8);
             frame[offset++] = (byte)(length_SV & 0xFF);
 
             // Reserved
-            frame[offset++] = (byte)(config.simulated ? 0x80 : 0x00);
+            frame[offset++] = (byte)(svcb.Simulated ? 0x80 : 0x00);
             offset += 3;
 
             // savPdu
@@ -125,7 +127,7 @@ namespace GeneratorSV
             // svID
             frame[offset++] = 0x80;
             frame[offset++] = (byte)length_svID;
-            Encoding.ASCII.GetBytes(config.svID).CopyTo(frame, offset);
+            Encoding.ASCII.GetBytes(svcb.SvID).CopyTo(frame, offset);
             offset += length_svID;
 
             // smpCnt
@@ -138,15 +140,15 @@ namespace GeneratorSV
             // confRev
             frame[offset++] = 0x83;
             frame[offset++] = 0x04;
-            frame[offset++] = (byte)(0xFF & config.confRev >> 24);
-            frame[offset++] = (byte)(0xFF & config.confRev >> 16);
-            frame[offset++] = (byte)(0xFF & config.confRev >>  8);
-            frame[offset++] = (byte)(0xFF & config.confRev);
+            frame[offset++] = (byte)(0xFF & svcb.ConfRev >> 24);
+            frame[offset++] = (byte)(0xFF & svcb.ConfRev >> 16);
+            frame[offset++] = (byte)(0xFF & svcb.ConfRev >>  8);
+            frame[offset++] = (byte)(0xFF & svcb.ConfRev);
 
             // smpSynch
             frame[offset++] = 0x85;
             frame[offset++] = 0x01;
-            frame[offset++] = config.smpSynch;
+            frame[offset++] = svcb.SmpSynch;
 
             // smpRate = 80
             frame[offset++] = 0x86;
@@ -213,26 +215,6 @@ namespace GeneratorSV
         }
 
         public bool IsRunning { get; private set; }
-    
-        public SVConfig Config
-        {
-            get { return config; }
-            set
-            {
-                config = value;
-                ResetFrames();
-            }
-        }
-
-        public DataConfig Data
-        {
-            get { return data; }
-            set
-            {
-                data = value;
-                ResetFrames();
-            }
-        }
 
         public void Start()
         {

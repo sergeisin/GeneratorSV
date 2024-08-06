@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace GeneratorSV
@@ -7,24 +6,22 @@ namespace GeneratorSV
     public partial class MainForm : Form
     {
         private SVPublisher publisher;
-        private SVConfig config;
-        private DataConfig data;
         
         public MainForm()
         {
             InitializeComponent();
 
-            config = new SVConfig()
+            var svcbConfig = new SVCBConfig()
             {
-                dstMac   = "01-0c-cd-04-00-01",
-                vlanID   = 0x005,
-                appID    = 0x4000,
-                svID     = "GENERATOR_SV",
-                confRev  = 10000,
-                smpSynch = 2
+                DstMac   = 0x0001,
+                VlanID   = 0x0005,
+                AppID    = 0x4000,
+                SvID     = "GENERATOR_SV",
+                ConfRev  =   1000,
+                SmpSynch =      2
             };
 
-            data = new DataConfig()
+            var dataConfig = new DataConfig()
             {
                 Ia_mag = 100,       Ia_ang =  30,
                 Ib_mag = 100,       Ib_ang = 210,
@@ -35,7 +32,7 @@ namespace GeneratorSV
                 Uc_mag = 10_000,    Uc_ang =  12,
             };
 
-            publisher = new SVPublisher(interfaceName: "Ethernet 3", config, data);
+            publisher = new SVPublisher(interfaceName: "Ethernet 3", svcbConfig, dataConfig);
         }
 
         private void RunButton_Click(object sender, EventArgs e)
@@ -54,23 +51,17 @@ namespace GeneratorSV
 
         private void VlanBox_CheckedChanged(object sender, EventArgs e)
         {
-            config.hasVlan = (sender as CheckBox).Checked;
-            publisher.Config = config;
+            publisher.SVCBConfig.HasVlan = (sender as CheckBox).Checked;
         }
 
         private void SimBox_CheckedChanged(object sender, EventArgs e)
         {
-            config.simulated = (sender as CheckBox).Checked;
-            publisher.Config = config;
+            publisher.SVCBConfig.Simulated = (sender as CheckBox).Checked;
         }
 
         private void TextBox_SvID_Validated(object sender, EventArgs e)
         {
-            if (config.svID != textBox_SvID.Text)
-            {
-                config.svID = textBox_SvID.Text;
-                publisher.Config = config;
-            }
+            publisher.SVCBConfig.SvID = textBox_SvID.Text;
         }
 
         private void MainForm_Click(object sender, EventArgs e)

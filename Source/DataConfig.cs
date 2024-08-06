@@ -6,6 +6,10 @@ namespace GeneratorSV
     /// </summary>
     public class DataConfig
     {
+        public delegate void ChangedEventHandler();
+
+        public event ChangedEventHandler Changed;
+
         public double Ia_mag { get; set; }
         public double Ia_ang { get; set; }
         public double Ib_mag { get; set; }
