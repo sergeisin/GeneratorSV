@@ -124,7 +124,6 @@ namespace GeneratorSV
         public static bool Validate_DstMAC(string str, out ushort dstMac)
         {
             // Two hex octets string XX-XX
-
             if (ushort.TryParse(str.Replace("-", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out dstMac))
             {
                 if (dstMac <= 0x01FF)
@@ -135,13 +134,18 @@ namespace GeneratorSV
             return false;
         }
 
-        public static bool Validate_VlanID()
+        public static bool Validate_VlanID(string str, out ushort vlanID)
         {
-            // Decimal or hexadecimal number
-            // In range from 0 to 0x0FFF
-            // Output type - ushort
+            string text = str.Replace(" ", "").Replace("0x", "");
 
-            throw new NotImplementedException();
+            if (ushort.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out vlanID))
+            {
+                if (vlanID <= 0x0FFF)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static bool Validate_AppID()

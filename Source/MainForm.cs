@@ -95,5 +95,22 @@ namespace GeneratorSV
 
             tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
         }
+
+        private void tBox_VlanID_Validated(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            if (SVCBConfig.Validate_VlanID(tBox.Text, out ushort vlanID))
+            {
+                publisher.SVCBConfig.VlanID = vlanID;
+            }
+            else
+            {
+                string msg = "The valid range is from 0x000 to 0xFFF";
+                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            tBox.Text = publisher.SVCBConfig.VlanID.ToString("X3");
+        }
     }
 }
