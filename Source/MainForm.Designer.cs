@@ -33,11 +33,13 @@
             this.tBox_AppID = new System.Windows.Forms.TextBox();
             this.label_ConfRev = new System.Windows.Forms.Label();
             this.tBox_ConfRev = new System.Windows.Forms.TextBox();
+            this.label_SmpSynch = new System.Windows.Forms.Label();
+            this.tBox_SmpSynch = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // runButton
             // 
-            this.runButton.Location = new System.Drawing.Point(373, 218);
+            this.runButton.Location = new System.Drawing.Point(109, 224);
             this.runButton.MaximumSize = new System.Drawing.Size(80, 25);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(80, 25);
@@ -49,7 +51,7 @@
             // vlanBox
             // 
             this.vlanBox.AutoSize = true;
-            this.vlanBox.Location = new System.Drawing.Point(373, 195);
+            this.vlanBox.Location = new System.Drawing.Point(243, 93);
             this.vlanBox.Name = "vlanBox";
             this.vlanBox.Size = new System.Drawing.Size(73, 17);
             this.vlanBox.TabIndex = 3;
@@ -60,7 +62,7 @@
             // simBox
             // 
             this.simBox.AutoSize = true;
-            this.simBox.Location = new System.Drawing.Point(373, 172);
+            this.simBox.Location = new System.Drawing.Point(244, 66);
             this.simBox.Name = "simBox";
             this.simBox.Size = new System.Drawing.Size(72, 17);
             this.simBox.TabIndex = 4;
@@ -70,7 +72,7 @@
             // 
             // tBox_SvID
             // 
-            this.tBox_SvID.Location = new System.Drawing.Point(163, 304);
+            this.tBox_SvID.Location = new System.Drawing.Point(72, 190);
             this.tBox_SvID.MaxLength = 35;
             this.tBox_SvID.Name = "tBox_SvID";
             this.tBox_SvID.Size = new System.Drawing.Size(150, 20);
@@ -81,7 +83,7 @@
             // 
             // tBox_DstMAC
             // 
-            this.tBox_DstMAC.Location = new System.Drawing.Point(102, 6);
+            this.tBox_DstMAC.Location = new System.Drawing.Point(109, 6);
             this.tBox_DstMAC.MaxLength = 5;
             this.tBox_DstMAC.Name = "tBox_DstMAC";
             this.tBox_DstMAC.Size = new System.Drawing.Size(80, 20);
@@ -93,7 +95,7 @@
             // label_dstMac
             // 
             this.label_dstMac.AutoSize = true;
-            this.label_dstMac.Location = new System.Drawing.Point(12, 9);
+            this.label_dstMac.Location = new System.Drawing.Point(19, 9);
             this.label_dstMac.Name = "label_dstMac";
             this.label_dstMac.Size = new System.Drawing.Size(84, 13);
             this.label_dstMac.TabIndex = 8;
@@ -103,7 +105,7 @@
             // label_VlanID
             // 
             this.label_VlanID.AutoSize = true;
-            this.label_VlanID.Location = new System.Drawing.Point(19, 35);
+            this.label_VlanID.Location = new System.Drawing.Point(26, 35);
             this.label_VlanID.Name = "label_VlanID";
             this.label_VlanID.Size = new System.Drawing.Size(77, 13);
             this.label_VlanID.TabIndex = 9;
@@ -112,7 +114,7 @@
             // 
             // tBox_VlanID
             // 
-            this.tBox_VlanID.Location = new System.Drawing.Point(102, 33);
+            this.tBox_VlanID.Location = new System.Drawing.Point(109, 33);
             this.tBox_VlanID.MaxLength = 5;
             this.tBox_VlanID.Name = "tBox_VlanID";
             this.tBox_VlanID.Size = new System.Drawing.Size(80, 20);
@@ -124,7 +126,7 @@
             // label_AppID
             // 
             this.label_AppID.AutoSize = true;
-            this.label_AppID.Location = new System.Drawing.Point(21, 63);
+            this.label_AppID.Location = new System.Drawing.Point(28, 63);
             this.label_AppID.Name = "label_AppID";
             this.label_AppID.Size = new System.Drawing.Size(75, 13);
             this.label_AppID.TabIndex = 11;
@@ -133,7 +135,7 @@
             // 
             // tBox_AppID
             // 
-            this.tBox_AppID.Location = new System.Drawing.Point(102, 61);
+            this.tBox_AppID.Location = new System.Drawing.Point(109, 61);
             this.tBox_AppID.MaxLength = 6;
             this.tBox_AppID.Name = "tBox_AppID";
             this.tBox_AppID.Size = new System.Drawing.Size(80, 20);
@@ -145,7 +147,7 @@
             // label_ConfRev
             // 
             this.label_ConfRev.AutoSize = true;
-            this.label_ConfRev.Location = new System.Drawing.Point(8, 92);
+            this.label_ConfRev.Location = new System.Drawing.Point(15, 92);
             this.label_ConfRev.Name = "label_ConfRev";
             this.label_ConfRev.Size = new System.Drawing.Size(88, 13);
             this.label_ConfRev.TabIndex = 13;
@@ -154,7 +156,7 @@
             // 
             // tBox_ConfRev
             // 
-            this.tBox_ConfRev.Location = new System.Drawing.Point(102, 90);
+            this.tBox_ConfRev.Location = new System.Drawing.Point(109, 90);
             this.tBox_ConfRev.MaxLength = 6;
             this.tBox_ConfRev.Name = "tBox_ConfRev";
             this.tBox_ConfRev.Size = new System.Drawing.Size(80, 20);
@@ -163,11 +165,34 @@
             this.tBox_ConfRev.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.tBox_ConfRev.Validated += new System.EventHandler(this.TBox_ConfRev_Validated);
             // 
+            // label_SmpSynch
+            // 
+            this.label_SmpSynch.AutoSize = true;
+            this.label_SmpSynch.Location = new System.Drawing.Point(6, 121);
+            this.label_SmpSynch.Name = "label_SmpSynch";
+            this.label_SmpSynch.Size = new System.Drawing.Size(97, 13);
+            this.label_SmpSynch.TabIndex = 15;
+            this.label_SmpSynch.Text = "SmpSynch ( dec ) :";
+            this.label_SmpSynch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tBox_SmpSynch
+            // 
+            this.tBox_SmpSynch.Location = new System.Drawing.Point(109, 119);
+            this.tBox_SmpSynch.MaxLength = 3;
+            this.tBox_SmpSynch.Name = "tBox_SmpSynch";
+            this.tBox_SmpSynch.Size = new System.Drawing.Size(80, 20);
+            this.tBox_SmpSynch.TabIndex = 16;
+            this.tBox_SmpSynch.Text = "2";
+            this.tBox_SmpSynch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tBox_SmpSynch.Validated += new System.EventHandler(this.TBox_SmpSynch_Validated);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 361);
+            this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.tBox_SmpSynch);
+            this.Controls.Add(this.label_SmpSynch);
             this.Controls.Add(this.tBox_ConfRev);
             this.Controls.Add(this.label_ConfRev);
             this.Controls.Add(this.tBox_AppID);
@@ -180,7 +205,7 @@
             this.Controls.Add(this.simBox);
             this.Controls.Add(this.vlanBox);
             this.Controls.Add(this.runButton);
-            this.MinimumSize = new System.Drawing.Size(500, 400);
+            this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
@@ -205,5 +230,7 @@
         private System.Windows.Forms.TextBox tBox_AppID;
         private System.Windows.Forms.Label label_ConfRev;
         private System.Windows.Forms.TextBox tBox_ConfRev;
+        private System.Windows.Forms.Label label_SmpSynch;
+        private System.Windows.Forms.TextBox tBox_SmpSynch;
     }
 }

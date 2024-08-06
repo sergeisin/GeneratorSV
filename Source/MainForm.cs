@@ -129,7 +129,7 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (SVCBConfig.Validate_ConfRev(tBox.Text, out uint confRev))
+            if (uint.TryParse(tBox.Text, out uint confRev))
             {
                 publisher.SVCBConfig.ConfRev = confRev;
             }
@@ -140,6 +140,23 @@ namespace GeneratorSV
             }
 
             tBox.Text = publisher.SVCBConfig.ConfRev.ToString();
+        }
+
+        private void TBox_SmpSynch_Validated(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            if (byte.TryParse(tBox.Text, out byte smpSynch))
+            {
+                publisher.SVCBConfig.SmpSynch = smpSynch;
+            }
+            else
+            {
+                string msg = "The valid range is from 0 to 255";
+                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            tBox.Text = publisher.SVCBConfig.SmpSynch.ToString();
         }
     }
 }

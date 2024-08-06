@@ -162,23 +162,6 @@ namespace GeneratorSV
             return false;
         }
 
-        public static bool Validate_ConfRev(string str, out uint confRev)
-        {
-            if (uint.TryParse(str, out confRev))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool Validate_SmpSynch()
-        {
-            // Decimal or hexadecimal number
-            // In range from 0 to 0xFF
-            // Output type - byte
-
-            throw new NotImplementedException();
-        }
-
         public delegate void ChangedEventHandler();
         public event ChangedEventHandler Changed;
     }
