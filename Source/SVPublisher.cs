@@ -213,6 +213,26 @@ namespace GeneratorSV
         }
 
         public bool IsRunning { get; private set; }
+    
+        public SVConfig Config
+        {
+            get { return config; }
+            set
+            {
+                config = value;
+                ResetFrames();
+            }
+        }
+
+        public DataConfig Data
+        {
+            get { return data; }
+            set
+            {
+                data = value;
+                ResetFrames();
+            }
+        }
 
         public void Start()
         {
@@ -233,58 +253,6 @@ namespace GeneratorSV
             {
                 sendingTask.Wait();
             });
-        }
-
-        public bool HasVlan
-        {
-            get { return config.hasVlan; }
-            set
-            { 
-                config.hasVlan = value;
-                ResetFrames();
-            }
-        }
-
-        public bool Simulated
-        {
-            get { return config.simulated; }
-            set
-            {
-                config.simulated = value;
-                ResetFrames();
-            }
-        }
-
-        public uint ConfRev
-        {
-            get { return config.confRev; }
-
-            set
-            {
-                config.confRev = value;
-                ResetFrames();
-            }
-        }
-
-        public byte SmpSynch
-        {
-            get { return config.smpSynch; }
-            set
-            {
-                config.smpSynch = value;
-                ResetFrames();
-            }
-        }
-
-        public DataConfig Data
-        {
-            get { return data; }
-
-            set
-            {
-                data = value;
-                ResetFrames();
-            }
         }
 
         public void Dispose()

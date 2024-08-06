@@ -24,6 +24,7 @@
             this.runButton = new System.Windows.Forms.Button();
             this.vlanBox = new System.Windows.Forms.CheckBox();
             this.simBox = new System.Windows.Forms.CheckBox();
+            this.textBox_SvID = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // runButton
@@ -59,11 +60,23 @@
             this.simBox.UseVisualStyleBackColor = true;
             this.simBox.CheckedChanged += new System.EventHandler(this.SimBox_CheckedChanged);
             // 
+            // textBox_SvID
+            // 
+            this.textBox_SvID.Location = new System.Drawing.Point(12, 96);
+            this.textBox_SvID.MaxLength = 35;
+            this.textBox_SvID.Name = "textBox_SvID";
+            this.textBox_SvID.Size = new System.Drawing.Size(150, 20);
+            this.textBox_SvID.TabIndex = 5;
+            this.textBox_SvID.Text = "GENERATOR_SV";
+            this.textBox_SvID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox_SvID.Validated += new System.EventHandler(this.TextBox_SvID_Validated);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.textBox_SvID);
             this.Controls.Add(this.simBox);
             this.Controls.Add(this.vlanBox);
             this.Controls.Add(this.runButton);
@@ -72,6 +85,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Click += new System.EventHandler(this.MainForm_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,5 +96,6 @@
         private System.Windows.Forms.Button runButton;
         private System.Windows.Forms.CheckBox vlanBox;
         private System.Windows.Forms.CheckBox simBox;
+        private System.Windows.Forms.TextBox textBox_SvID;
     }
 }

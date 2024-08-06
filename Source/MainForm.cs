@@ -7,12 +7,14 @@ namespace GeneratorSV
     public partial class MainForm : Form
     {
         private SVPublisher publisher;
+        private SVConfig config;
+        private DataConfig data;
         
         public MainForm()
         {
             InitializeComponent();
 
-            var svConfig = new SVConfig()
+            config = new SVConfig()
             {
                 dstMac   = "01-0c-cd-04-00-01",
                 vlanID   = 0x005,
@@ -22,7 +24,7 @@ namespace GeneratorSV
                 smpSynch = 2
             };
 
-            var dataConfig = new DataConfig()
+            data = new DataConfig()
             {
                 Ia_mag = 100,       Ia_ang =  30,
                 Ib_mag = 100,       Ib_ang = 210,
@@ -33,7 +35,7 @@ namespace GeneratorSV
                 Uc_mag = 10_000,    Uc_ang =  12,
             };
 
-            publisher = new SVPublisher(interfaceName: "Ethernet 3", svConfig, dataConfig);
+            publisher = new SVPublisher(interfaceName: "Ethernet 3", config, data);
         }
 
         private void RunButton_Click(object sender, EventArgs e)
@@ -52,12 +54,28 @@ namespace GeneratorSV
 
         private void VlanBox_CheckedChanged(object sender, EventArgs e)
         {
-            publisher.HasVlan = (sender as CheckBox).Checked;
+            config.hasVlan = (sender as CheckBox).Checked;
+            publisher.Config = config;
         }
 
         private void SimBox_CheckedChanged(object sender, EventArgs e)
         {
-            publisher.Simulated = (sender as CheckBox).Checked;
+            config.simulated = (sender as CheckBox).Checked;
+            publisher.Config = config;
+        }
+
+        private void TextBox_SvID_Validated(object sender, EventArgs e)
+        {
+            if (config.svID != textBox_SvID.Text)
+            {
+                config.svID = textBox_SvID.Text;
+                publisher.Config = config;
+            }
+        }
+
+        private void MainForm_Click(object sender, EventArgs e)
+        {
+            Validate();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
