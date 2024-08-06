@@ -68,18 +68,13 @@ namespace GeneratorSV
         {
             publisher.Dispose();
         }
-
-        private void testField_Validated(object sender, EventArgs e)
-        {
-            publisher.SVCBConfig.AppID = (ushort)testField.Value;
-        }
-
-        private void tBox_SvID_Validated(object sender, EventArgs e)
+        
+        private void TBox_SvID_Validated(object sender, EventArgs e)
         {
             publisher.SVCBConfig.SvID = tBox_SvID.Text;
         }
 
-        private void tBox_DstMAC_Validated(object sender, EventArgs e)
+        private void TBox_DstMAC_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
 
@@ -96,7 +91,7 @@ namespace GeneratorSV
             tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
         }
 
-        private void tBox_VlanID_Validated(object sender, EventArgs e)
+        private void TBox_VlanID_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
 
@@ -111,6 +106,23 @@ namespace GeneratorSV
             }
 
             tBox.Text = publisher.SVCBConfig.VlanID.ToString("X3");
+        }
+
+        private void TBox_AppID_Validated(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            if (SVCBConfig.Validate_AppID(tBox.Text, out ushort appID))
+            {
+                publisher.SVCBConfig.AppID = appID;
+            }
+            else
+            {
+                string msg = "The valid range is from 0x4000 to 0x7FFF";
+                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            tBox.Text = publisher.SVCBConfig.AppID.ToString("X4");
         }
     }
 }

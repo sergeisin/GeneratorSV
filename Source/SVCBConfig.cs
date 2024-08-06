@@ -148,16 +148,21 @@ namespace GeneratorSV
             return false;
         }
 
-        public static bool Validate_AppID()
+        public static bool Validate_AppID(string str, out ushort appID)
         {
-            // Decimal or hexadecimal number
-            // In range from 0x4000 to 0x7FFF
-            // Output type - ushort
+            string text = str.Replace(" ", "").Replace("0x", "");
 
-            throw new NotImplementedException();
+            if (ushort.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out appID))
+            {
+                if (appID <= 0x7FFF && appID >= 0x4000)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public static bool Validate_ConfRev()
+        public static bool Validate_ConfRev(string str, out uint confRev)
         {
             // Decimal or hexadecimal number
             // In range from 0 to uint.Max
