@@ -61,8 +61,6 @@ namespace GeneratorSV
             publisher.Dispose();
         }
 
-        #region SvCB settings entering
-
         private void CBox_Vlan_CheckedChanged(object sender, EventArgs e)
         {
             publisher.SVCBConfig.HasVlan = (sender as CheckBox).Checked;
@@ -78,12 +76,6 @@ namespace GeneratorSV
             publisher.SVCBConfig.SvID = tBox_SvID.Text;
         }
 
-        private void TBox_DstMAC_Click(object sender, EventArgs e)
-        {
-            TextBox tBox = sender as TextBox;
-            tBox.Select(0, tBox.TextLength);
-        }
-
         private void TBox_DstMAC_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
@@ -94,17 +86,10 @@ namespace GeneratorSV
             }
             else
             {
-                string msg  = "The valid range is from 00-00 to 01-FF";
-                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowFormatMessage("The valid range is from 00-00 to 01-FF");
             }
 
             tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
-        }
-
-        private void TBox_VlanID_Click(object sender, EventArgs e)
-        {
-            TextBox tBox = sender as TextBox;
-            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_VlanID_Validated(object sender, EventArgs e)
@@ -117,17 +102,10 @@ namespace GeneratorSV
             }
             else
             {
-                string msg = "The valid range is from 0x000 to 0xFFF";
-                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowFormatMessage("The valid range is from 0x000 to 0xFFF");
             }
 
             tBox.Text = publisher.SVCBConfig.VlanID.ToString("X3");
-        }
-
-        private void TBox_AppID_Click(object sender, EventArgs e)
-        {
-            TextBox tBox = sender as TextBox;
-            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_AppID_Validated(object sender, EventArgs e)
@@ -140,17 +118,10 @@ namespace GeneratorSV
             }
             else
             {
-                string msg = "The valid range is from 0x4000 to 0x7FFF";
-                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowFormatMessage("The valid range is from 0x4000 to 0x7FFF");
             }
 
             tBox.Text = publisher.SVCBConfig.AppID.ToString("X4");
-        }
-
-        private void TBox_ConfRev_Click(object sender, EventArgs e)
-        {
-            TextBox tBox = sender as TextBox;
-            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_ConfRev_Validated(object sender, EventArgs e)
@@ -163,17 +134,10 @@ namespace GeneratorSV
             }
             else
             {
-                string msg = "This value must be a number";
-                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowFormatMessage("This value must be a decimal number");
             }
 
             tBox.Text = publisher.SVCBConfig.ConfRev.ToString();
-        }
-
-        private void TBox_SmpSynch_Click(object sender, EventArgs e)
-        {
-            TextBox tBox = sender as TextBox;
-            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_SmpSynch_Validated(object sender, EventArgs e)
@@ -186,8 +150,7 @@ namespace GeneratorSV
             }
             else
             {
-                string msg = "The valid range is from 0 to 127";
-                MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowFormatMessage("The valid range is from 0 to 127");
             }
 
             string synchType = "local";
@@ -203,6 +166,19 @@ namespace GeneratorSV
             tBox.Text = $"{publisher.SVCBConfig.SmpSynch} - {synchType}";
         }
 
-        #endregion
+        private void ShowFormatMessage(string msg)
+        {
+            MessageBox.Show(msg, "Format error!",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
+
+        private void TBox_DstMAC_Click   (object sender, EventArgs e) => SelectText(sender as TextBox);
+        private void TBox_VlanID_Click   (object sender, EventArgs e) => SelectText(sender as TextBox);
+        private void TBox_AppID_Click    (object sender, EventArgs e) => SelectText(sender as TextBox);
+        private void TBox_ConfRev_Click  (object sender, EventArgs e) => SelectText(sender as TextBox);
+        private void TBox_SmpSynch_Click (object sender, EventArgs e) => SelectText(sender as TextBox);
+
+        private void SelectText(TextBox tBox) => tBox.Select(0, tBox.TextLength);
     }
 }
