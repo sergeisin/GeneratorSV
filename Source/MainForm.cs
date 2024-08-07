@@ -18,7 +18,8 @@ namespace GeneratorSV
                 AppID    = 0x4000,
                 SvID     = "GENERATOR_SV",
                 ConfRev  =   1000,
-                SmpSynch =      2
+                SmpSynch =      2,
+                HasVlan  = true
             };
 
             var dataConfig = new DataConfig()
@@ -49,29 +50,38 @@ namespace GeneratorSV
             }
         }
 
-        private void VlanBox_CheckedChanged(object sender, EventArgs e)
-        {
-            publisher.SVCBConfig.HasVlan = (sender as CheckBox).Checked;
-        }
-
-        private void SimBox_CheckedChanged(object sender, EventArgs e)
-        {
-            publisher.SVCBConfig.Simulated = (sender as CheckBox).Checked;
-        }
-
         private void MainForm_Click(object sender, EventArgs e)
         {
-            Validate();
+            // Removes text selection from all form elements
+            dummyLabel.Focus();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             publisher.Dispose();
         }
-        
+
+        #region SvCB settings entering
+
+        private void CBox_Vlan_CheckedChanged(object sender, EventArgs e)
+        {
+            publisher.SVCBConfig.HasVlan = (sender as CheckBox).Checked;
+        }
+
+        private void CBox_Sim_CheckedChanged(object sender, EventArgs e)
+        {
+            publisher.SVCBConfig.Simulated = (sender as CheckBox).Checked;
+        }
+
         private void TBox_SvID_Validated(object sender, EventArgs e)
         {
             publisher.SVCBConfig.SvID = tBox_SvID.Text;
+        }
+
+        private void TBox_DstMAC_Click(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_DstMAC_Validated(object sender, EventArgs e)
@@ -91,6 +101,12 @@ namespace GeneratorSV
             tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
         }
 
+        private void TBox_VlanID_Click(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
+        }
+
         private void TBox_VlanID_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
@@ -106,6 +122,12 @@ namespace GeneratorSV
             }
 
             tBox.Text = publisher.SVCBConfig.VlanID.ToString("X3");
+        }
+
+        private void TBox_AppID_Click(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
         }
 
         private void TBox_AppID_Validated(object sender, EventArgs e)
@@ -125,6 +147,12 @@ namespace GeneratorSV
             tBox.Text = publisher.SVCBConfig.AppID.ToString("X4");
         }
 
+        private void TBox_ConfRev_Click(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
+        }
+
         private void TBox_ConfRev_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
@@ -142,21 +170,39 @@ namespace GeneratorSV
             tBox.Text = publisher.SVCBConfig.ConfRev.ToString();
         }
 
+        private void TBox_SmpSynch_Click(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
+        }
+
         private void TBox_SmpSynch_Validated(object sender, EventArgs e)
         {
             TextBox tBox = sender as TextBox;
 
-            if (byte.TryParse(tBox.Text, out byte smpSynch))
+            if (SVCBConfig.Validate_SmpSynch(tBox.Text, out byte smpSynch))
             {
                 publisher.SVCBConfig.SmpSynch = smpSynch;
             }
             else
             {
-                string msg = "The valid range is from 0 to 255";
+                string msg = "The valid range is from 0 to 127";
                 MessageBox.Show(msg, "Format error!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            tBox.Text = publisher.SVCBConfig.SmpSynch.ToString();
+            string synchType = "local";
+            switch (publisher.SVCBConfig.SmpSynch)
+            {
+                case 0:   synchType = "none";     break;
+                case 2:   synchType = "global";   break;
+                case 3:   synchType = "reserved"; break;
+                case 4:   synchType = "reserved"; break;
+                case 255: synchType = "reserved"; break;
+            }
+
+            tBox.Text = $"{publisher.SVCBConfig.SmpSynch} - {synchType}";
         }
+
+        #endregion
     }
 }

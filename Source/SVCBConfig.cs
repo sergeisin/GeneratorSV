@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace GeneratorSV
 {
@@ -16,8 +15,11 @@ namespace GeneratorSV
             get { return dstMac_; }
             set
             {
-                dstMac_ = value;
-                Changed?.Invoke();
+                if (dstMac_ != value)
+                {
+                    dstMac_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private ushort dstMac_;
@@ -30,8 +32,11 @@ namespace GeneratorSV
             get { return hasVlan_; }
             set
             {
-                hasVlan_ = value;
-                Changed?.Invoke();
+                if (hasVlan_ != value)
+                {
+                    hasVlan_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private bool hasVlan_;
@@ -44,8 +49,11 @@ namespace GeneratorSV
             get { return vlanID_; }
             set
             {
-                vlanID_ = value;
-                Changed?.Invoke();
+                if (vlanID_ != value)
+                {
+                    vlanID_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private ushort vlanID_;
@@ -58,8 +66,11 @@ namespace GeneratorSV
             get { return appID_; }
             set
             {
-                appID_ = value;
-                Changed?.Invoke();
+                if (appID_ != value)
+                {
+                    appID_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private ushort appID_;
@@ -71,9 +82,12 @@ namespace GeneratorSV
         {
             get { return simulated_; }
             set
-            { 
-                simulated_ = value;
-                Changed?.Invoke();
+            {
+                if (simulated_ != value)
+                {
+                    simulated_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private bool simulated_;
@@ -86,8 +100,11 @@ namespace GeneratorSV
             get { return svID_; }
             set
             {
-                svID_ = value;
-                Changed?.Invoke();
+                if(svID_ != value)
+                {
+                    svID_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private string svID_;
@@ -100,8 +117,11 @@ namespace GeneratorSV
             get { return confRev_; }
             set
             {
-                confRev_ = value;
-                Changed?.Invoke();
+                if (confRev_ != value)
+                {
+                    confRev_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private uint confRev_;
@@ -114,12 +134,14 @@ namespace GeneratorSV
             get { return smpSynch_; }
             set
             {
-                smpSynch_ = value;
-                Changed?.Invoke();
+                if (smpSynch_ != value)
+                {
+                    smpSynch_ = value;
+                    Changed?.Invoke();
+                }
             }
         }
         private byte smpSynch_;
-
 
         public static bool Validate_DstMAC(string str, out ushort dstMac)
         {
@@ -155,6 +177,20 @@ namespace GeneratorSV
             if (ushort.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out appID))
             {
                 if (appID <= 0x7FFF && appID >= 0x4000)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool Validate_SmpSynch(string str, out byte smpSynch)
+        {
+            var sArr = str.Split('-');
+
+            if (byte.TryParse(sArr[0], out smpSynch))
+            {
+                if (smpSynch <= 0x7F)
                 {
                     return true;
                 }
