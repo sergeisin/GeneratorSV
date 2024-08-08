@@ -18,8 +18,6 @@ namespace GeneratorSV
         public SVCBConfig SVCBConfig { get { return conf; } }
         public DataConfig DataConfig { get { return data; } }
 
-        public string  Interface { get; }
-
         public SVPublisher(string interfaceName, SVCBConfig svcbConfig, DataConfig dataConfig)
         {
             Interface = interfaceName;
@@ -215,6 +213,8 @@ namespace GeneratorSV
             // Quality
             offset += 4;
         }
+
+        public string Interface { get; }
 
         public bool IsRunning { get; private set; }
 

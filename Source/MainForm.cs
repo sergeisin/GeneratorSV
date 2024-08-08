@@ -51,6 +51,40 @@ namespace GeneratorSV
             };
         }
 
+        private void MainForm_Click(object sender, EventArgs e)
+        {
+            // Removes text selection from all form elements
+            dummyLabel.Focus();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (cmBox_Device.Items.Count == 0)
+            {
+                MessageBox.Show("Ethernet devices not found!", "Device error!",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            publisher?.Dispose();
+        }
+
+        private void CMBox_Device_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string interfaceName = (sender as ComboBox).SelectedItem.ToString();
+
+            if (publisher is null || publisher.Interface != interfaceName)
+            {
+                publisher?.Dispose();
+                publisher = new SVPublisher(interfaceName, svcbConfig, dataConfig);
+            }
+
+            runButton.Enabled = true;
+        }
+
         private void RunButton_Click(object sender, EventArgs e)
         {
             if (publisher.IsRunning)
@@ -65,17 +99,6 @@ namespace GeneratorSV
                 cmBox_Device.Enabled = false;
                 runButton.Text = "Stop";
             }
-        }
-
-        private void MainForm_Click(object sender, EventArgs e)
-        {
-            // Removes text selection from all form elements
-            dummyLabel.Focus();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            publisher?.Dispose();
         }
 
         private void CBox_Vlan_CheckedChanged(object sender, EventArgs e)
@@ -197,28 +220,5 @@ namespace GeneratorSV
         private void TBox_SmpSynch_Click (object sender, EventArgs e) => SelectText(sender as TextBox);
 
         private void SelectText(TextBox tBox) => tBox.Select(0, tBox.TextLength);
-
-        private void CMBox_Device_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string interfaceName = (sender as ComboBox).SelectedItem.ToString();
-
-            if (publisher is null || publisher.Interface != interfaceName)
-            {
-                publisher?.Dispose();
-                publisher = new SVPublisher(interfaceName, svcbConfig, dataConfig);
-            }
-
-            runButton.Enabled = true;
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            if (cmBox_Device.Items.Count == 0)
-            {
-                MessageBox.Show("Ethernet devices not found!", "Device error!",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-            }
-        }
     }
 }

@@ -44,10 +44,10 @@
             // runButton
             // 
             this.runButton.Enabled = false;
-            this.runButton.Location = new System.Drawing.Point(108, 203);
+            this.runButton.Location = new System.Drawing.Point(201, 177);
             this.runButton.MaximumSize = new System.Drawing.Size(80, 25);
             this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(80, 25);
+            this.runButton.Size = new System.Drawing.Size(80, 23);
             this.runButton.TabIndex = 0;
             this.runButton.Text = "Run";
             this.runButton.UseVisualStyleBackColor = true;
@@ -58,7 +58,7 @@
             this.cBox_Vlan.AutoSize = true;
             this.cBox_Vlan.Checked = true;
             this.cBox_Vlan.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cBox_Vlan.Location = new System.Drawing.Point(206, 36);
+            this.cBox_Vlan.Location = new System.Drawing.Point(202, 40);
             this.cBox_Vlan.Name = "cBox_Vlan";
             this.cBox_Vlan.Size = new System.Drawing.Size(73, 17);
             this.cBox_Vlan.TabIndex = 3;
@@ -69,7 +69,7 @@
             // cBox_Sim
             // 
             this.cBox_Sim.AutoSize = true;
-            this.cBox_Sim.Location = new System.Drawing.Point(206, 64);
+            this.cBox_Sim.Location = new System.Drawing.Point(202, 12);
             this.cBox_Sim.Name = "cBox_Sim";
             this.cBox_Sim.Size = new System.Drawing.Size(72, 17);
             this.cBox_Sim.TabIndex = 4;
@@ -79,7 +79,7 @@
             // 
             // tBox_SvID
             // 
-            this.tBox_SvID.Location = new System.Drawing.Point(108, 150);
+            this.tBox_SvID.Location = new System.Drawing.Point(110, 150);
             this.tBox_SvID.MaxLength = 35;
             this.tBox_SvID.Name = "tBox_SvID";
             this.tBox_SvID.Size = new System.Drawing.Size(170, 20);
@@ -90,7 +90,7 @@
             // 
             // tBox_DstMAC
             // 
-            this.tBox_DstMAC.Location = new System.Drawing.Point(109, 6);
+            this.tBox_DstMAC.Location = new System.Drawing.Point(110, 10);
             this.tBox_DstMAC.MaxLength = 5;
             this.tBox_DstMAC.Name = "tBox_DstMAC";
             this.tBox_DstMAC.Size = new System.Drawing.Size(80, 20);
@@ -102,27 +102,25 @@
             // 
             // label_dstMac
             // 
-            this.label_dstMac.AutoSize = true;
-            this.label_dstMac.Location = new System.Drawing.Point(19, 9);
+            this.label_dstMac.Location = new System.Drawing.Point(20, 8);
             this.label_dstMac.Name = "label_dstMac";
-            this.label_dstMac.Size = new System.Drawing.Size(84, 13);
+            this.label_dstMac.Size = new System.Drawing.Size(90, 20);
             this.label_dstMac.TabIndex = 8;
             this.label_dstMac.Text = "DstMAC ( hex ) :";
-            this.label_dstMac.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_dstMac.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_VlanID
             // 
-            this.label_VlanID.AutoSize = true;
-            this.label_VlanID.Location = new System.Drawing.Point(26, 35);
+            this.label_VlanID.Location = new System.Drawing.Point(20, 36);
             this.label_VlanID.Name = "label_VlanID";
-            this.label_VlanID.Size = new System.Drawing.Size(77, 13);
+            this.label_VlanID.Size = new System.Drawing.Size(90, 20);
             this.label_VlanID.TabIndex = 9;
             this.label_VlanID.Text = "VlanID ( hex ) :";
-            this.label_VlanID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_VlanID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tBox_VlanID
             // 
-            this.tBox_VlanID.Location = new System.Drawing.Point(109, 33);
+            this.tBox_VlanID.Location = new System.Drawing.Point(110, 38);
             this.tBox_VlanID.MaxLength = 5;
             this.tBox_VlanID.Name = "tBox_VlanID";
             this.tBox_VlanID.Size = new System.Drawing.Size(80, 20);
@@ -134,17 +132,16 @@
             // 
             // label_AppID
             // 
-            this.label_AppID.AutoSize = true;
-            this.label_AppID.Location = new System.Drawing.Point(28, 63);
+            this.label_AppID.Location = new System.Drawing.Point(20, 64);
             this.label_AppID.Name = "label_AppID";
-            this.label_AppID.Size = new System.Drawing.Size(75, 13);
+            this.label_AppID.Size = new System.Drawing.Size(90, 20);
             this.label_AppID.TabIndex = 11;
             this.label_AppID.Text = "AppID ( hex ) :";
-            this.label_AppID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_AppID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tBox_AppID
             // 
-            this.tBox_AppID.Location = new System.Drawing.Point(109, 61);
+            this.tBox_AppID.Location = new System.Drawing.Point(110, 66);
             this.tBox_AppID.MaxLength = 6;
             this.tBox_AppID.Name = "tBox_AppID";
             this.tBox_AppID.Size = new System.Drawing.Size(80, 20);
@@ -156,17 +153,16 @@
             // 
             // label_ConfRev
             // 
-            this.label_ConfRev.AutoSize = true;
-            this.label_ConfRev.Location = new System.Drawing.Point(15, 92);
+            this.label_ConfRev.Location = new System.Drawing.Point(20, 92);
             this.label_ConfRev.Name = "label_ConfRev";
-            this.label_ConfRev.Size = new System.Drawing.Size(88, 13);
+            this.label_ConfRev.Size = new System.Drawing.Size(90, 20);
             this.label_ConfRev.TabIndex = 13;
             this.label_ConfRev.Text = "ConfRev ( dec ) :";
-            this.label_ConfRev.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_ConfRev.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tBox_ConfRev
             // 
-            this.tBox_ConfRev.Location = new System.Drawing.Point(109, 90);
+            this.tBox_ConfRev.Location = new System.Drawing.Point(110, 94);
             this.tBox_ConfRev.MaxLength = 9;
             this.tBox_ConfRev.Name = "tBox_ConfRev";
             this.tBox_ConfRev.Size = new System.Drawing.Size(80, 20);
@@ -178,17 +174,16 @@
             // 
             // label_SmpSynch
             // 
-            this.label_SmpSynch.AutoSize = true;
-            this.label_SmpSynch.Location = new System.Drawing.Point(6, 121);
+            this.label_SmpSynch.Location = new System.Drawing.Point(10, 120);
             this.label_SmpSynch.Name = "label_SmpSynch";
-            this.label_SmpSynch.Size = new System.Drawing.Size(97, 13);
+            this.label_SmpSynch.Size = new System.Drawing.Size(100, 20);
             this.label_SmpSynch.TabIndex = 15;
             this.label_SmpSynch.Text = "SmpSynch ( dec ) :";
-            this.label_SmpSynch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_SmpSynch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tBox_SmpSynch
             // 
-            this.tBox_SmpSynch.Location = new System.Drawing.Point(109, 119);
+            this.tBox_SmpSynch.Location = new System.Drawing.Point(110, 122);
             this.tBox_SmpSynch.MaxLength = 3;
             this.tBox_SmpSynch.Name = "tBox_SmpSynch";
             this.tBox_SmpSynch.Size = new System.Drawing.Size(80, 20);
@@ -208,18 +203,17 @@
             // 
             // label_SvID
             // 
-            this.label_SvID.AutoSize = true;
-            this.label_SvID.Location = new System.Drawing.Point(67, 152);
+            this.label_SvID.Location = new System.Drawing.Point(20, 148);
             this.label_SvID.Name = "label_SvID";
-            this.label_SvID.Size = new System.Drawing.Size(35, 13);
+            this.label_SvID.Size = new System.Drawing.Size(90, 20);
             this.label_SvID.TabIndex = 18;
             this.label_SvID.Text = "svID :";
-            this.label_SvID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_SvID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cmBox_Device
             // 
             this.cmBox_Device.FormattingEnabled = true;
-            this.cmBox_Device.Location = new System.Drawing.Point(109, 176);
+            this.cmBox_Device.Location = new System.Drawing.Point(110, 178);
             this.cmBox_Device.Name = "cmBox_Device";
             this.cmBox_Device.Size = new System.Drawing.Size(80, 21);
             this.cmBox_Device.TabIndex = 19;
@@ -227,13 +221,12 @@
             // 
             // label_Interface
             // 
-            this.label_Interface.AutoSize = true;
-            this.label_Interface.Location = new System.Drawing.Point(47, 179);
+            this.label_Interface.Location = new System.Drawing.Point(20, 176);
             this.label_Interface.Name = "label_Interface";
-            this.label_Interface.Size = new System.Drawing.Size(55, 13);
+            this.label_Interface.Size = new System.Drawing.Size(90, 20);
             this.label_Interface.TabIndex = 20;
             this.label_Interface.Text = "Interface :";
-            this.label_Interface.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_Interface.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MainForm
             // 
