@@ -18,8 +18,12 @@ namespace GeneratorSV
         public SVCBConfig SVCBConfig { get { return conf; } }
         public DataConfig DataConfig { get { return data; } }
 
+        public string  Interface { get; }
+
         public SVPublisher(string interfaceName, SVCBConfig svcbConfig, DataConfig dataConfig)
         {
+            Interface = interfaceName;
+
             conf = svcbConfig;
             data = dataConfig;
 
@@ -221,7 +225,9 @@ namespace GeneratorSV
             sendingTask = Task.Run(() =>
             {
                 while (IsRunning)
+                {
                     squeue.Transmit(device, SendQueueTransmitModes.Synchronized);
+                }
             });
         }
 
@@ -242,6 +248,9 @@ namespace GeneratorSV
                 IsRunning = false;
                 sendingTask.Wait();
             }
+
+            conf.Changed -= ResetFrames;
+            data.Changed -= ResetFrames;
 
             squeue.Dispose();
             device.Dispose();

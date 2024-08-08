@@ -37,11 +37,14 @@
             this.tBox_SmpSynch = new System.Windows.Forms.TextBox();
             this.dummyLabel = new System.Windows.Forms.Label();
             this.label_SvID = new System.Windows.Forms.Label();
+            this.cmBox_Device = new System.Windows.Forms.ComboBox();
+            this.label_Interface = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // runButton
             // 
-            this.runButton.Location = new System.Drawing.Point(109, 189);
+            this.runButton.Enabled = false;
+            this.runButton.Location = new System.Drawing.Point(108, 203);
             this.runButton.MaximumSize = new System.Drawing.Size(80, 25);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(80, 25);
@@ -76,7 +79,7 @@
             // 
             // tBox_SvID
             // 
-            this.tBox_SvID.Location = new System.Drawing.Point(63, 150);
+            this.tBox_SvID.Location = new System.Drawing.Point(108, 150);
             this.tBox_SvID.MaxLength = 35;
             this.tBox_SvID.Name = "tBox_SvID";
             this.tBox_SvID.Size = new System.Drawing.Size(170, 20);
@@ -198,7 +201,7 @@
             // dummyLabel
             // 
             this.dummyLabel.AutoSize = true;
-            this.dummyLabel.Location = new System.Drawing.Point(9, 236);
+            this.dummyLabel.Location = new System.Drawing.Point(12, 10);
             this.dummyLabel.Name = "dummyLabel";
             this.dummyLabel.Size = new System.Drawing.Size(0, 13);
             this.dummyLabel.TabIndex = 17;
@@ -206,18 +209,39 @@
             // label_SvID
             // 
             this.label_SvID.AutoSize = true;
-            this.label_SvID.Location = new System.Drawing.Point(22, 153);
+            this.label_SvID.Location = new System.Drawing.Point(67, 152);
             this.label_SvID.Name = "label_SvID";
             this.label_SvID.Size = new System.Drawing.Size(35, 13);
             this.label_SvID.TabIndex = 18;
             this.label_SvID.Text = "svID :";
             this.label_SvID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // cmBox_Device
+            // 
+            this.cmBox_Device.FormattingEnabled = true;
+            this.cmBox_Device.Location = new System.Drawing.Point(109, 176);
+            this.cmBox_Device.Name = "cmBox_Device";
+            this.cmBox_Device.Size = new System.Drawing.Size(80, 21);
+            this.cmBox_Device.TabIndex = 19;
+            this.cmBox_Device.SelectedIndexChanged += new System.EventHandler(this.CMBox_Device_SelectedIndexChanged);
+            // 
+            // label_Interface
+            // 
+            this.label_Interface.AutoSize = true;
+            this.label_Interface.Location = new System.Drawing.Point(47, 179);
+            this.label_Interface.Name = "label_Interface";
+            this.label_Interface.Size = new System.Drawing.Size(55, 13);
+            this.label_Interface.TabIndex = 20;
+            this.label_Interface.Text = "Interface :";
+            this.label_Interface.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.label_Interface);
+            this.Controls.Add(this.cmBox_Device);
             this.Controls.Add(this.label_SvID);
             this.Controls.Add(this.dummyLabel);
             this.Controls.Add(this.tBox_SmpSynch);
@@ -239,6 +263,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Generator SV";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.Click += new System.EventHandler(this.MainForm_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -263,5 +288,7 @@
         private System.Windows.Forms.TextBox tBox_SmpSynch;
         private System.Windows.Forms.Label dummyLabel;
         private System.Windows.Forms.Label label_SvID;
+        private System.Windows.Forms.ComboBox cmBox_Device;
+        private System.Windows.Forms.Label label_Interface;
     }
 }

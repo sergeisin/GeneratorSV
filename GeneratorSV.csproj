@@ -74,6 +74,7 @@
     <Compile Include="Source\SVPublisher.cs" />
     <EmbeddedResource Include="Source\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

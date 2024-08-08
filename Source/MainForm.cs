@@ -1,39 +1,54 @@
 ﻿using System;
 using System.Windows.Forms;
+using SharpPcap.LibPcap;
 
 namespace GeneratorSV
 {
     public partial class MainForm : Form
     {
         private SVPublisher publisher;
-        
+        private SVCBConfig svcbConfig;
+        private DataConfig dataConfig;
+
         public MainForm()
         {
             InitializeComponent();
 
-            var svcbConfig = new SVCBConfig()
+            foreach (var device in LibPcapLiveDeviceList.Instance)
             {
-                DstMAC   = 0x0001,
-                VlanID   = 0x0005,
-                AppID    = 0x4000,
-                SvID     = "GENERATOR_SV",
-                ConfRev  =   1000,
-                SmpSynch =      2,
-                HasVlan  = true
+                if (device.Interface.MacAddress != null)
+                {
+                    cmBox_Device.Items.Add(device.Interface.FriendlyName);
+                }
+            }
+
+            svcbConfig = new SVCBConfig()
+            {
+                DstMAC = 0x0001,
+                VlanID = 0x0005,
+                AppID = 0x4000,
+                SvID = "GENERATOR_SV",
+                ConfRev = 1000,
+                SmpSynch = 2,
+                HasVlan = true
             };
 
-            var dataConfig = new DataConfig()
+            dataConfig = new DataConfig()
             {
-                Ia_mag = 100,       Ia_ang =  30,
-                Ib_mag = 100,       Ib_ang = 210,
-                Ic_mag = 100,       Ic_ang =  90,
+                Ia_mag = 100,
+                Ia_ang = 30,
+                Ib_mag = 100,
+                Ib_ang = 210,
+                Ic_mag = 100,
+                Ic_ang = 90,
 
-                Ua_mag = 10_000,    Ua_ang =   0,
-                Ub_mag = 10_000,    Ub_ang = 240,
-                Uc_mag = 10_000,    Uc_ang =  12,
+                Ua_mag = 10_000,
+                Ua_ang = 0,
+                Ub_mag = 10_000,
+                Ub_ang = 240,
+                Uc_mag = 10_000,
+                Uc_ang = 12,
             };
-
-            publisher = new SVPublisher(interfaceName: "Ethernet 3", svcbConfig, dataConfig);
         }
 
         private void RunButton_Click(object sender, EventArgs e)
@@ -41,11 +56,13 @@ namespace GeneratorSV
             if (publisher.IsRunning)
             {
                 publisher.Stop();
+                cmBox_Device.Enabled = true;
                 runButton.Text = "Run";
             }
             else
             {
                 publisher.Start();
+                cmBox_Device.Enabled = false;
                 runButton.Text = "Stop";
             }
         }
@@ -58,22 +75,22 @@ namespace GeneratorSV
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            publisher.Dispose();
+            publisher?.Dispose();
         }
 
         private void CBox_Vlan_CheckedChanged(object sender, EventArgs e)
         {
-            publisher.SVCBConfig.HasVlan = (sender as CheckBox).Checked;
+            svcbConfig.HasVlan = (sender as CheckBox).Checked;
         }
 
         private void CBox_Sim_CheckedChanged(object sender, EventArgs e)
         {
-            publisher.SVCBConfig.Simulated = (sender as CheckBox).Checked;
+            svcbConfig.Simulated = (sender as CheckBox).Checked;
         }
 
         private void TBox_SvID_Validated(object sender, EventArgs e)
         {
-            publisher.SVCBConfig.SvID = tBox_SvID.Text;
+            svcbConfig.SvID = tBox_SvID.Text;
         }
 
         private void TBox_DstMAC_Validated(object sender, EventArgs e)
@@ -82,14 +99,14 @@ namespace GeneratorSV
 
             if (SVCBConfig.Validate_DstMAC(tBox.Text, out ushort dstMac))
             {
-                publisher.SVCBConfig.DstMAC = dstMac;
+                svcbConfig.DstMAC = dstMac;
             }
             else
             {
                 ShowFormatMessage("The valid range is from 00-00 to 01-FF");
             }
 
-            tBox.Text = publisher.SVCBConfig.DstMAC.ToString("X4").Insert(2, "-");
+            tBox.Text = svcbConfig.DstMAC.ToString("X4").Insert(2, "-");
         }
 
         private void TBox_VlanID_Validated(object sender, EventArgs e)
@@ -98,14 +115,14 @@ namespace GeneratorSV
 
             if (SVCBConfig.Validate_VlanID(tBox.Text, out ushort vlanID))
             {
-                publisher.SVCBConfig.VlanID = vlanID;
+                svcbConfig.VlanID = vlanID;
             }
             else
             {
                 ShowFormatMessage("The valid range is from 0x000 to 0xFFF");
             }
 
-            tBox.Text = publisher.SVCBConfig.VlanID.ToString("X3");
+            tBox.Text = svcbConfig.VlanID.ToString("X3");
         }
 
         private void TBox_AppID_Validated(object sender, EventArgs e)
@@ -114,14 +131,14 @@ namespace GeneratorSV
 
             if (SVCBConfig.Validate_AppID(tBox.Text, out ushort appID))
             {
-                publisher.SVCBConfig.AppID = appID;
+                svcbConfig.AppID = appID;
             }
             else
             {
                 ShowFormatMessage("The valid range is from 0x4000 to 0x7FFF");
             }
 
-            tBox.Text = publisher.SVCBConfig.AppID.ToString("X4");
+            tBox.Text = svcbConfig.AppID.ToString("X4");
         }
 
         private void TBox_ConfRev_Validated(object sender, EventArgs e)
@@ -130,14 +147,14 @@ namespace GeneratorSV
 
             if (uint.TryParse(tBox.Text, out uint confRev))
             {
-                publisher.SVCBConfig.ConfRev = confRev;
+                svcbConfig.ConfRev = confRev;
             }
             else
             {
                 ShowFormatMessage("This value must be a decimal number");
             }
 
-            tBox.Text = publisher.SVCBConfig.ConfRev.ToString();
+            tBox.Text = svcbConfig.ConfRev.ToString();
         }
 
         private void TBox_SmpSynch_Validated(object sender, EventArgs e)
@@ -146,7 +163,7 @@ namespace GeneratorSV
 
             if (SVCBConfig.Validate_SmpSynch(tBox.Text, out byte smpSynch))
             {
-                publisher.SVCBConfig.SmpSynch = smpSynch;
+               svcbConfig.SmpSynch = smpSynch;
             }
             else
             {
@@ -154,7 +171,7 @@ namespace GeneratorSV
             }
 
             string synchType = "local";
-            switch (publisher.SVCBConfig.SmpSynch)
+            switch (svcbConfig.SmpSynch)
             {
                 case 0:   synchType = "none";     break;
                 case 2:   synchType = "global";   break;
@@ -163,7 +180,7 @@ namespace GeneratorSV
                 case 255: synchType = "reserved"; break;
             }
 
-            tBox.Text = $"{publisher.SVCBConfig.SmpSynch} - {synchType}";
+            tBox.Text = $"{svcbConfig.SmpSynch} - {synchType}";
         }
 
         private void ShowFormatMessage(string msg)
@@ -180,5 +197,28 @@ namespace GeneratorSV
         private void TBox_SmpSynch_Click (object sender, EventArgs e) => SelectText(sender as TextBox);
 
         private void SelectText(TextBox tBox) => tBox.Select(0, tBox.TextLength);
+
+        private void CMBox_Device_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string interfaceName = (sender as ComboBox).SelectedItem.ToString();
+
+            if (publisher is null || publisher.Interface != interfaceName)
+            {
+                publisher?.Dispose();
+                publisher = new SVPublisher(interfaceName, svcbConfig, dataConfig);
+            }
+
+            runButton.Enabled = true;
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (cmBox_Device.Items.Count == 0)
+            {
+                MessageBox.Show("Ethernet devices not found!", "Device error!",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+            }
+        }
     }
 }
