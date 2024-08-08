@@ -8,7 +8,7 @@ namespace GeneratorSV
     public class SVCBConfig
     {
         /// <summary>
-        /// Destination MAC-address (last two octets in range 0x0000 .. 0x01FF)
+        /// Destination MAC-address (last two octets in range 0x0000 .. 0x03FF)
         /// </summary>
         public ushort DstMAC
         {
@@ -148,7 +148,7 @@ namespace GeneratorSV
             // Two hex octets string XX-XX
             if (ushort.TryParse(str.Replace("-", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out dstMac))
             {
-                if (dstMac <= 0x01FF)
+                if (dstMac <= 0x03FF)
                 {
                     return true;
                 }

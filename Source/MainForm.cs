@@ -126,7 +126,7 @@ namespace GeneratorSV
             }
             else
             {
-                ShowFormatMessage("The valid range is from 00-00 to 01-FF");
+                ShowFormatMessage("The valid range is from 00-00 to 03-FF");
             }
 
             tBox.Text = svcbConfig.DstMAC.ToString("X4").Insert(2, "-");
