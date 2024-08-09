@@ -14,6 +14,22 @@ namespace GeneratorSV
         {
             InitializeComponent();
 
+            tBox_DstMAC.KeyDown   += CheckFinishEditing;
+            tBox_VlanID.KeyDown   += CheckFinishEditing;
+            tBox_AppID.KeyDown    += CheckFinishEditing;
+            tBox_ConfRev.KeyDown  += CheckFinishEditing;
+            tBox_SmpSynch.KeyDown += CheckFinishEditing;
+            tBox_SvID.KeyDown     += CheckFinishEditing;
+
+            tBox_DstMAC.Click     += SelectText;
+            tBox_VlanID.Click     += SelectText;
+            tBox_AppID.Click      += SelectText;
+            tBox_ConfRev.Click    += SelectText;
+            tBox_SmpSynch.Click   += SelectText;
+            tBox_SvID.Click       += SelectText;
+
+            Click += FinishEditing;
+
             foreach (var device in LibPcapLiveDeviceList.Instance)
             {
                 if (device.Interface.MacAddress != null)
@@ -49,12 +65,6 @@ namespace GeneratorSV
                 Uc_mag = 10_000,
                 Uc_ang = 12,
             };
-        }
-
-        private void MainForm_Click(object sender, EventArgs e)
-        {
-            // Removes text selection from all form elements
-            dummyLabel.Focus();
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -213,12 +223,26 @@ namespace GeneratorSV
                             MessageBoxIcon.Information);
         }
 
-        private void TBox_DstMAC_Click   (object sender, EventArgs e) => SelectText(sender as TextBox);
-        private void TBox_VlanID_Click   (object sender, EventArgs e) => SelectText(sender as TextBox);
-        private void TBox_AppID_Click    (object sender, EventArgs e) => SelectText(sender as TextBox);
-        private void TBox_ConfRev_Click  (object sender, EventArgs e) => SelectText(sender as TextBox);
-        private void TBox_SmpSynch_Click (object sender, EventArgs e) => SelectText(sender as TextBox);
+        private void SelectText(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+            tBox.Select(0, tBox.TextLength);
+        }
 
-        private void SelectText(TextBox tBox) => tBox.Select(0, tBox.TextLength);
+        private void CheckFinishEditing(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                FinishEditing();
+            }
+        }
+
+        private void FinishEditing(object sender = null, EventArgs e = null)
+        {
+            // Removes text selection
+            // Triggers event "Validated"
+
+            dummyLabel.Focus();
+        }
     }
 }

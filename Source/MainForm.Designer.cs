@@ -97,7 +97,6 @@
             this.tBox_DstMAC.TabIndex = 7;
             this.tBox_DstMAC.Text = "00-01";
             this.tBox_DstMAC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBox_DstMAC.Click += new System.EventHandler(this.TBox_DstMAC_Click);
             this.tBox_DstMAC.Validated += new System.EventHandler(this.TBox_DstMAC_Validated);
             // 
             // label_dstMac
@@ -127,7 +126,6 @@
             this.tBox_VlanID.TabIndex = 10;
             this.tBox_VlanID.Text = "005";
             this.tBox_VlanID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBox_VlanID.Click += new System.EventHandler(this.TBox_VlanID_Click);
             this.tBox_VlanID.Validated += new System.EventHandler(this.TBox_VlanID_Validated);
             // 
             // label_AppID
@@ -148,7 +146,6 @@
             this.tBox_AppID.TabIndex = 12;
             this.tBox_AppID.Text = "4000";
             this.tBox_AppID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBox_AppID.Click += new System.EventHandler(this.TBox_AppID_Click);
             this.tBox_AppID.Validated += new System.EventHandler(this.TBox_AppID_Validated);
             // 
             // label_ConfRev
@@ -169,7 +166,6 @@
             this.tBox_ConfRev.TabIndex = 14;
             this.tBox_ConfRev.Text = "1000";
             this.tBox_ConfRev.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBox_ConfRev.Click += new System.EventHandler(this.TBox_ConfRev_Click);
             this.tBox_ConfRev.Validated += new System.EventHandler(this.TBox_ConfRev_Validated);
             // 
             // label_SmpSynch
@@ -190,7 +186,6 @@
             this.tBox_SmpSynch.TabIndex = 16;
             this.tBox_SmpSynch.Text = "2 - global";
             this.tBox_SmpSynch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBox_SmpSynch.Click += new System.EventHandler(this.TBox_SmpSynch_Click);
             this.tBox_SmpSynch.Validated += new System.EventHandler(this.TBox_SmpSynch_Validated);
             // 
             // dummyLabel
@@ -257,7 +252,6 @@
             this.Text = "Generator SV";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.Click += new System.EventHandler(this.MainForm_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
