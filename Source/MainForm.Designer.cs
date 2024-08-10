@@ -44,7 +44,7 @@
             // runButton
             // 
             this.runButton.Enabled = false;
-            this.runButton.Location = new System.Drawing.Point(201, 177);
+            this.runButton.Location = new System.Drawing.Point(109, 207);
             this.runButton.MaximumSize = new System.Drawing.Size(80, 25);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(80, 23);
@@ -82,7 +82,7 @@
             this.tBox_SvID.Location = new System.Drawing.Point(110, 150);
             this.tBox_SvID.MaxLength = 35;
             this.tBox_SvID.Name = "tBox_SvID";
-            this.tBox_SvID.Size = new System.Drawing.Size(170, 20);
+            this.tBox_SvID.Size = new System.Drawing.Size(160, 20);
             this.tBox_SvID.TabIndex = 5;
             this.tBox_SvID.Text = "GENERATOR_SV";
             this.tBox_SvID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -210,7 +210,7 @@
             this.cmBox_Device.FormattingEnabled = true;
             this.cmBox_Device.Location = new System.Drawing.Point(110, 178);
             this.cmBox_Device.Name = "cmBox_Device";
-            this.cmBox_Device.Size = new System.Drawing.Size(80, 21);
+            this.cmBox_Device.Size = new System.Drawing.Size(160, 21);
             this.cmBox_Device.TabIndex = 19;
             this.cmBox_Device.SelectedIndexChanged += new System.EventHandler(this.CMBox_Device_SelectedIndexChanged);
             // 
