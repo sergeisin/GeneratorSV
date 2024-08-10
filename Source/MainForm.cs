@@ -233,6 +233,7 @@ namespace GeneratorSV
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 FinishEditing();
             }
         }
