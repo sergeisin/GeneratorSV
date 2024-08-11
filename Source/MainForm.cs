@@ -14,21 +14,8 @@ namespace GeneratorSV
         {
             InitializeComponent();
 
-            tBox_DstMAC.KeyDown   += CheckFinishEditing;
-            tBox_VlanID.KeyDown   += CheckFinishEditing;
-            tBox_AppID.KeyDown    += CheckFinishEditing;
-            tBox_ConfRev.KeyDown  += CheckFinishEditing;
-            tBox_SmpSynch.KeyDown += CheckFinishEditing;
-            tBox_SvID.KeyDown     += CheckFinishEditing;
+            InitializeEventHandlers();
 
-            tBox_DstMAC.Click     += SelectText;
-            tBox_VlanID.Click     += SelectText;
-            tBox_AppID.Click      += SelectText;
-            tBox_ConfRev.Click    += SelectText;
-            tBox_SmpSynch.Click   += SelectText;
-            tBox_SvID.Click       += SelectText;
-
-            Click += FinishEditing;
 
             foreach (var device in LibPcapLiveDeviceList.Instance)
             {
@@ -65,6 +52,49 @@ namespace GeneratorSV
                 Uc_mag = 10_000,
                 Uc_ang = 12,
             };
+        }
+
+        private void InitializeEventHandlers()
+        {
+            Click += FinishEditing;
+
+            // Select text by mouse click
+
+            tBox_DstMAC.Click   += SelectText;
+            tBox_VlanID.Click   += SelectText;
+            tBox_AppID.Click    += SelectText;
+            tBox_ConfRev.Click  += SelectText;
+            tBox_SmpSynch.Click += SelectText;
+            tBox_SvID.Click     += SelectText;
+            tBox_I1.Click       += SelectText;
+            tBox_I2.Click       += SelectText;
+            tBox_I3.Click       += SelectText;
+            tBox_I4.Click       += SelectText;
+            tBox_I1a.Click      += SelectText;
+            tBox_I2a.Click      += SelectText;
+            tBox_I3a.Click      += SelectText;
+            tBox_I4a.Click      += SelectText;
+            tBox_kI.Click       += SelectText;
+            tBox_kU.Click       += SelectText;
+
+            // Finish editing by pressing enter
+
+            tBox_DstMAC.KeyDown     += CheckFinishEditing;
+            tBox_VlanID.KeyDown     += CheckFinishEditing;
+            tBox_AppID.KeyDown      += CheckFinishEditing;
+            tBox_ConfRev.KeyDown    += CheckFinishEditing;
+            tBox_SmpSynch.KeyDown   += CheckFinishEditing;
+            tBox_SvID.KeyDown       += CheckFinishEditing;
+            tBox_I1.KeyDown         += CheckFinishEditing;
+            tBox_I2.KeyDown         += CheckFinishEditing;
+            tBox_I3.KeyDown         += CheckFinishEditing;
+            tBox_I4.KeyDown         += CheckFinishEditing;
+            tBox_I1a.KeyDown        += CheckFinishEditing;
+            tBox_I2a.KeyDown        += CheckFinishEditing;
+            tBox_I3a.KeyDown        += CheckFinishEditing;
+            tBox_I4a.KeyDown        += CheckFinishEditing;
+            tBox_kI.KeyDown         += CheckFinishEditing;
+            tBox_kU.KeyDown         += CheckFinishEditing;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -233,7 +263,9 @@ namespace GeneratorSV
         {
             if (e.KeyCode == Keys.Enter)
             {
+                // Suppresses unwanted sound
                 e.SuppressKeyPress = true;
+
                 FinishEditing();
             }
         }
@@ -244,6 +276,62 @@ namespace GeneratorSV
             // Triggers event "Validated"
 
             dummyLabel.Focus();
+        }
+
+        private void ChangeDataMode(object sender, EventArgs e)
+        {
+            var rButton = sender as RadioButton;
+
+            if (rButton.Checked)
+            {
+                label_I1.Text = "Ia";
+                label_I2.Text = "Ib";
+                label_I3.Text = "Ic";
+
+                label_I4.Visible = true;
+                tBox_I4. Visible = true;
+                tBox_I4a.Visible = true;
+            }
+            else
+            {
+                label_I1.Text = "I1";
+                label_I2.Text = "I2";
+                label_I3.Text = "I0";
+
+                label_I4.Visible = false;
+                tBox_I4. Visible = false;
+                tBox_I4a.Visible = false;
+            }
+
+            UpdateDataView();
+        }
+
+        private void UpdateDataView()
+        {
+            //if (dataConfig.PhaorsView)
+            //{
+            //    tBox_I1.Text = ...
+            //    tBox_I2.Text = ...
+            //    tBox_I3.Text = ...
+            //    tBox_I4.Text = ...
+
+            //    tBox_I1a.Text = ...
+            //    tBox_I2a.Text = ...
+            //    tBox_I3a.Text = ...
+            //    tBox_I4a.Text = ...
+            //}
+            //else
+            //{
+            //    tBox_I1.Text = ...
+            //    tBox_I2.Text = ...
+            //    tBox_I3.Text = ...
+            //    tBox_I4.Text = ...
+
+            //    tBox_I1a.Text = ...
+            //    tBox_I2a.Text = ...
+            //    tBox_I3a.Text = ...
+            //    tBox_I4a.Text = ...
+            //}
         }
     }
 }
