@@ -8,6 +8,23 @@ namespace GeneratorSV
     public class SVCBConfig
     {
         /// <summary>
+        /// Default SVCB configuration
+        /// </summary>
+        public SVCBConfig()
+        {
+            hasVlan_ = true;
+
+            dstMac_ = 0x0001;
+            vlanID_ = 0x0005;
+            appID_  = 0x4000;
+
+            confRev_  = 1000;
+            smpSynch_ =    2;
+
+            svID_ = "GENERATOR_SV";
+        }
+
+        /// <summary>
         /// Destination MAC-address (last two octets in range 0x0000 .. 0x03FF)
         /// </summary>
         public ushort DstMAC

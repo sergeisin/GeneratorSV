@@ -16,7 +16,6 @@ namespace GeneratorSV
 
             InitializeEventHandlers();
 
-
             foreach (var device in LibPcapLiveDeviceList.Instance)
             {
                 if (device.Interface.MacAddress != null)
@@ -25,33 +24,8 @@ namespace GeneratorSV
                 }
             }
 
-            svcbConfig = new SVCBConfig()
-            {
-                DstMAC = 0x0001,
-                VlanID = 0x0005,
-                AppID = 0x4000,
-                SvID = "GENERATOR_SV",
-                ConfRev = 1000,
-                SmpSynch = 2,
-                HasVlan = true
-            };
-
-            dataConfig = new DataConfig()
-            {
-                Ia_mag = 100,
-                Ia_ang = 30,
-                Ib_mag = 100,
-                Ib_ang = 210,
-                Ic_mag = 100,
-                Ic_ang = 90,
-
-                Ua_mag = 10_000,
-                Ua_ang = 0,
-                Ub_mag = 10_000,
-                Ub_ang = 240,
-                Uc_mag = 10_000,
-                Uc_ang = 12,
-            };
+            svcbConfig = new SVCBConfig();
+            dataConfig = new DataConfig();
         }
 
         private void InitializeEventHandlers()
@@ -308,7 +282,7 @@ namespace GeneratorSV
 
         private void UpdateDataView()
         {
-            //if (dataConfig.PhaorsView)
+            //if (dataConfig.PhasorsView)
             //{
             //    tBox_I1.Text = ...
             //    tBox_I2.Text = ...

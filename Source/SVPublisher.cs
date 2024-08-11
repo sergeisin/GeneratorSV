@@ -171,16 +171,16 @@ namespace GeneratorSV
                 frame[smpCntPos + 1] = (byte)(i & 0xFF);
 
                 // Currents
-                EncodeDataSetValues(data.Ia_mag, data.Ia_ang, i, frame, ref bufPos);
-                EncodeDataSetValues(data.Ib_mag, data.Ib_ang, i, frame, ref bufPos);
-                EncodeDataSetValues(data.Ic_mag, data.Ic_ang, i, frame, ref bufPos);
-                EncodeDataSetValues(data.I0_mag, data.I0_ang, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ia_Magnitude, data.Ia_Angle, data.KI, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ib_Magnitude, data.Ib_Angle, data.KI, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ic_Magnitude, data.Ic_Angle, data.KI, i, frame, ref bufPos);
+                EncodeDataSetValues(data.In_Magnitude, data.In_Angle, data.KI, i, frame, ref bufPos);
 
                 // Voltages
-                EncodeDataSetValues(data.Ua_mag, data.Ua_ang, i, frame, ref bufPos, isVoltage: true);
-                EncodeDataSetValues(data.Ub_mag, data.Ub_ang, i, frame, ref bufPos, isVoltage: true);
-                EncodeDataSetValues(data.Uc_mag, data.Uc_ang, i, frame, ref bufPos, isVoltage: true);
-                EncodeDataSetValues(data.U0_mag, data.U0_ang, i, frame, ref bufPos, isVoltage: true);
+                EncodeDataSetValues(data.Ua_Magnitude, data.Ua_Angle, data.KU, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Ub_Magnitude, data.Ub_Angle, data.KU, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Uc_Magnitude, data.Uc_Angle, data.KU, i, frame, ref bufPos);
+                EncodeDataSetValues(data.Un_Magnitude, data.Un_Angle, data.KU, i, frame, ref bufPos);
 
                 newQueue.Add(frame, 0, i * 250);
             }
@@ -192,16 +192,13 @@ namespace GeneratorSV
             toDispose?.Dispose();
         }
 
-        private void EncodeDataSetValues(double mag, double ang, int sampleNumber, byte[] frame, ref int offset, bool isVoltage = false)
+        private void EncodeDataSetValues(double mag, int ang, int scale, int sampleNumber, byte[] frame, ref int offset)
         {
             const double DT = 1.0 / 4000;
             const double W = 100 * Math.PI;
             const double DegToRad = Math.PI / 180.0;
 
-            const double kI = 1414.2135623730951;   // 1000 * sqrt(2)
-            const double kU = 141.42135623730951;   //  100 * sqrt(2)
-
-            double instVal = (isVoltage ? kU : kI) * mag * Math.Sin(W * DT * sampleNumber + ang * DegToRad);
+            double instVal = Math.Sqrt(2) * scale * mag * Math.Sin(W * DT * sampleNumber + ang * DegToRad);
 
             int value = (int)Math.Round(instVal);
 
