@@ -3,7 +3,7 @@
 namespace GeneratorSV
 {
     /// <summary>
-    /// Stores parameters of three-pahse system
+    /// Stores parameters of three-phase system
     /// </summary>
     public class DataConfig
     {
@@ -26,7 +26,7 @@ namespace GeneratorSV
         /// <summary>
         /// Minimum possible change if magnitude
         /// </summary>
-        public static double Epsilon { get; set; } = 0.1;
+        public static double Epsilon { get; } = 0.1;
 
         /// <summary>
         /// RMS value of positive sequence current

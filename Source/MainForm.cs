@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Globalization;
 using SharpPcap.LibPcap;
+using GeneratorSV.Source;
 
 namespace GeneratorSV
 {
@@ -134,13 +136,15 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (SVCBConfig.Validate_DstMAC(tBox.Text, out ushort dstMac))
+            string error = Validator.GetFormatError_DstMAC(tBox.Text, out ushort dstMac);
+
+            if (error is null)
             {
                 svcbConfig.DstMAC = dstMac;
             }
             else
             {
-                ShowFormatMessage("The valid range is from 00-00 to 03-FF");
+                ShowFormatMessage(error);
             }
 
             tBox.Text = svcbConfig.DstMAC.ToString("X4").Insert(2, "-");
@@ -150,13 +154,15 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (SVCBConfig.Validate_VlanID(tBox.Text, out ushort vlanID))
+            string error = Validator.GetFormatError_VlanID(tBox.Text, out ushort vlanID);
+
+            if (error is null)
             {
                 svcbConfig.VlanID = vlanID;
             }
             else
             {
-                ShowFormatMessage("The valid range is from 0x000 to 0xFFF");
+                ShowFormatMessage(error);
             }
 
             tBox.Text = svcbConfig.VlanID.ToString("X3");
@@ -166,13 +172,15 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (SVCBConfig.Validate_AppID(tBox.Text, out ushort appID))
+            string error = Validator.GetFormatError_AppID(tBox.Text, out ushort appID);
+
+            if (error is null)
             {
                 svcbConfig.AppID = appID;
             }
             else
             {
-                ShowFormatMessage("The valid range is from 0x4000 to 0x7FFF");
+                ShowFormatMessage(error);
             }
 
             tBox.Text = svcbConfig.AppID.ToString("X4");
@@ -182,13 +190,15 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (uint.TryParse(tBox.Text, out uint confRev))
+            string error = Validator.GetFormatError_ConfRev(tBox.Text, out uint confRev);
+
+            if (error is null)
             {
                 svcbConfig.ConfRev = confRev;
             }
             else
             {
-                ShowFormatMessage("This value must be a decimal number");
+                ShowFormatMessage(error);
             }
 
             tBox.Text = svcbConfig.ConfRev.ToString();
@@ -198,13 +208,15 @@ namespace GeneratorSV
         {
             TextBox tBox = sender as TextBox;
 
-            if (SVCBConfig.Validate_SmpSynch(tBox.Text, out byte smpSynch))
+            string error = Validator.GetFormatError_SmpSynch(tBox.Text, out byte smpSynch);
+
+            if (error is null)
             {
                svcbConfig.SmpSynch = smpSynch;
             }
             else
             {
-                ShowFormatMessage("The valid range is from 0 to 127");
+                ShowFormatMessage(error);
             }
 
             string synchType = "local";
@@ -277,35 +289,41 @@ namespace GeneratorSV
                 tBox_I4a.Visible = false;
             }
 
-            UpdateDataView();
+            UpdateDataView(rButton.Checked);
         }
 
-        private void UpdateDataView()
+        private void UpdateDataView(bool phaseViewMode)
         {
-            //if (dataConfig.PhasorsView)
-            //{
-            //    tBox_I1.Text = ...
-            //    tBox_I2.Text = ...
-            //    tBox_I3.Text = ...
-            //    tBox_I4.Text = ...
+            string format = "f1";
+            var cultureInfo = CultureInfo.InvariantCulture;
 
-            //    tBox_I1a.Text = ...
-            //    tBox_I2a.Text = ...
-            //    tBox_I3a.Text = ...
-            //    tBox_I4a.Text = ...
-            //}
-            //else
-            //{
-            //    tBox_I1.Text = ...
-            //    tBox_I2.Text = ...
-            //    tBox_I3.Text = ...
-            //    tBox_I4.Text = ...
+            if (phaseViewMode)
+            {
+                tBox_I1.Text = dataConfig.Ia_Magnitude.ToString(format, cultureInfo);
+                tBox_I2.Text = dataConfig.Ib_Magnitude.ToString(format, cultureInfo);
+                tBox_I3.Text = dataConfig.Ic_Magnitude.ToString(format, cultureInfo);
+                tBox_I4.Text = dataConfig.In_Magnitude.ToString(format, cultureInfo);
 
-            //    tBox_I1a.Text = ...
-            //    tBox_I2a.Text = ...
-            //    tBox_I3a.Text = ...
-            //    tBox_I4a.Text = ...
-            //}
+                tBox_I1a.Text = dataConfig.Ia_Angle.ToString();
+                tBox_I2a.Text = dataConfig.Ib_Angle.ToString();
+                tBox_I3a.Text = dataConfig.Ic_Angle.ToString();
+                tBox_I4a.Text = dataConfig.In_Angle.ToString();
+            }
+            else
+            {
+                tBox_I1.Text = dataConfig.I1_Magnitude.ToString(format, cultureInfo);
+                tBox_I2.Text = dataConfig.I2_Magnitude.ToString(format, cultureInfo);
+                tBox_I3.Text = dataConfig.I0_Magnitude.ToString(format, cultureInfo);
+
+                tBox_I1a.Text = dataConfig.I1_Angle.ToString();
+                tBox_I2a.Text = dataConfig.I2_Angle.ToString();
+                tBox_I3a.Text = dataConfig.I0_Angle.ToString();
+            }
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

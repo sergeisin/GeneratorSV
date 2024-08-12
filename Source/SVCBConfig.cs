@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-
+﻿
 namespace GeneratorSV
 {
     /// <summary>
@@ -159,61 +158,6 @@ namespace GeneratorSV
             }
         }
         private byte smpSynch_;
-
-        public static bool Validate_DstMAC(string str, out ushort dstMac)
-        {
-            // Two hex octets string XX-XX
-            if (ushort.TryParse(str.Replace("-", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out dstMac))
-            {
-                if (dstMac <= 0x03FF)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool Validate_VlanID(string str, out ushort vlanID)
-        {
-            string text = str.Replace(" ", "").Replace("0x", "");
-
-            if (ushort.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out vlanID))
-            {
-                if (vlanID <= 0x0FFF)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool Validate_AppID(string str, out ushort appID)
-        {
-            string text = str.Replace(" ", "").Replace("0x", "");
-
-            if (ushort.TryParse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out appID))
-            {
-                if (appID <= 0x7FFF && appID >= 0x4000)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool Validate_SmpSynch(string str, out byte smpSynch)
-        {
-            var sArr = str.Split('-');
-
-            if (byte.TryParse(sArr[0], out smpSynch))
-            {
-                if (smpSynch <= 0x7F)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         public delegate void ChangedEventHandler();
         public event ChangedEventHandler Changed;
