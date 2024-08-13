@@ -48,6 +48,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Complex.cs" />
     <Compile Include="Source\DataConfig.cs" />
     <Compile Include="Source\MainForm.cs">
       <SubType>Form</SubType>

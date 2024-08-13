@@ -504,8 +504,31 @@ namespace GeneratorSV
         }
         private int ang_Un_;
 
-        private void ComputeCurrentsFromSequences() // I1, I2, I0
+        private void ComputeCurrentsFromSequences()
         {
+            // var I0 = Complex.FromPolar(mag_I0_, ang_I0_);
+
+            // var I1    = Complex.FromPolar(mag_I1_, ang_I1_ + 000);
+            // var I1_A  = Complex.FromPolar(mag_I1_, ang_I1_ + 120);
+            // var I1_AA = Complex.FromPolar(mag_I1_, ang_I1_ + 240);
+
+            // var I2    = Complex.FromPolar(mag_I2_, ang_I2_ + 000);
+            // var I2_A  = Complex.FromPolar(mag_I2_, ang_I2_ + 120);
+            // var I2_AA = Complex.FromPolar(mag_I2_, ang_I2_ + 240);
+
+            // var Ia = I1    + I2    + I0;
+            // var Ib = I1_AA + I2_A  + I0;
+            // var Ic = I1_A  + I2_AA + I0;
+            // var In = Ia + Ib + Ic;
+
+            // mag_Ia_ = Ia.Mag;  ang_Ia_ = Ia.Ang;
+            // mag_Ib_ = Ib.Mag;  ang_Ib_ = Ib.Ang;
+            // mag_Ic_ = Ic.Mag;  ang_Ic_ = Ic.Ang;
+            // mag_In_ = In.Mag;  ang_In_ = In.Ang;
+
+            // Оператор A  - "ang + 120"
+            // Оператор AA - "ang + 240"
+
             Changed?.Invoke();
             throw new NotImplementedException();
         }
@@ -518,6 +541,10 @@ namespace GeneratorSV
 
         private void ComputeCurrentsFromPhasors()   // Ia, Ib, Ic, In
         {
+            // I1 = (Ia +   a * Ib + a*a * Ic) / 3
+            // I2 = (Ia + a*a * Ib +   a * Ic) / 3
+            // I0 = (Ia +       Ib +       Ic) / 3
+
             Changed?.Invoke();
             throw new NotImplementedException();
         }
