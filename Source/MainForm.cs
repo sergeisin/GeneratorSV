@@ -28,6 +28,8 @@ namespace GeneratorSV
 
             svcbConfig = new SVCBConfig();
             dataConfig = new DataConfig();
+
+            UpdateDataView(rButton_Mode1.Checked);
         }
 
         private void InitializeEventHandlers()
@@ -71,6 +73,18 @@ namespace GeneratorSV
             tBox_I4a.KeyDown        += CheckFinishEditing;
             tBox_kI.KeyDown         += CheckFinishEditing;
             tBox_kU.KeyDown         += CheckFinishEditing;
+
+            // Edit generator settings
+
+            tBox_I1.Validated       += TryEditMag;
+            tBox_I2.Validated       += TryEditMag;
+            tBox_I3.Validated       += TryEditMag;
+            tBox_I4.Validated       += TryEditMag;
+
+            tBox_I1a.Validated      += TryEditAng;
+            tBox_I2a.Validated      += TryEditAng;
+            tBox_I3a.Validated      += TryEditAng;
+            tBox_I4a.Validated      += TryEditAng;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -264,7 +278,7 @@ namespace GeneratorSV
             dummyLabel.Focus();
         }
 
-        private void ChangeDataMode(object sender, EventArgs e)
+        private void ChangeDataViewMode(object sender, EventArgs e)
         {
             var rButton = sender as RadioButton;
 
@@ -290,6 +304,100 @@ namespace GeneratorSV
             }
 
             UpdateDataView(rButton.Checked);
+        }
+
+        private void TryEditMag(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            bool phaseViewMode = rButton_Mode1.Checked;
+
+            string error = Validator.GetFormatError_Magnitude(tBox.Text, out double mag);
+
+            if (error is null)
+            {
+                if (phaseViewMode)
+                {
+                    switch (tBox.Tag as string)
+                    {
+                        case "I1m": dataConfig.Ia_Magnitude = mag; break;
+                        case "I2m": dataConfig.Ib_Magnitude = mag; break;
+                        case "I3m": dataConfig.Ic_Magnitude = mag; break;
+                        case "I4m": dataConfig.In_Magnitude = mag; break;
+
+                        case "U1m": break;
+                        case "U2m": break;
+                        case "U3m": break;
+                        case "U4m": break;
+                    }
+                }
+                else
+                {
+                    switch (tBox.Tag as string)
+                    {
+                        case "I1m": dataConfig.I1_Magnitude = mag; break;
+                        case "I2m": dataConfig.I2_Magnitude = mag; break;
+                        case "I3m": dataConfig.I0_Magnitude = mag; break;
+
+                        case "U1m": break;
+                        case "U2m": break;
+                        case "U3m": break;
+                    }
+                }
+            }
+            else
+            {
+                ShowFormatMessage(error);
+            }
+
+            UpdateDataView(phaseViewMode);
+        }
+
+        private void TryEditAng(object sender, EventArgs e)
+        {
+            TextBox tBox = sender as TextBox;
+
+            bool phaseViewMode = rButton_Mode1.Checked;
+
+            string error = Validator.GetFormatError_Angle(tBox.Text, out int ang);
+
+            if (error is null)
+            {
+                if (phaseViewMode)
+                {
+                    switch (tBox.Tag as string)
+                    {
+                        case "I1a": dataConfig.Ia_Angle = ang; break;
+                        case "I2a": dataConfig.Ib_Angle = ang; break;
+                        case "I3a": dataConfig.Ic_Angle = ang; break;
+                        case "I4a": dataConfig.In_Angle = ang; break;
+
+                        case "U1a": break;
+                        case "U2a": break;
+                        case "U3a": break;
+                        case "U4a": break;
+                    }
+                }
+                else
+                {
+                    switch (tBox.Tag as string)
+                    {
+                        case "I1a": dataConfig.I1_Angle = ang; break;
+                        case "I2a": dataConfig.I2_Angle = ang; break;
+                        case "I3a": dataConfig.I0_Angle = ang; break;
+
+                        case "U1a": break;
+                        case "U2a": break;
+                        case "U3a": break;
+                    }
+                }
+            }
+            else
+            {
+                ShowFormatMessage(error);
+            }
+
+            UpdateDataView(phaseViewMode);
         }
 
         private void UpdateDataView(bool phaseViewMode)
@@ -319,11 +427,6 @@ namespace GeneratorSV
                 tBox_I2a.Text = dataConfig.I2_Angle.ToString();
                 tBox_I3a.Text = dataConfig.I0_Angle.ToString();
             }
-        }
-
-        private void TestButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

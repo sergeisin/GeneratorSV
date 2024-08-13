@@ -74,14 +74,30 @@ namespace GeneratorSV.Source
             return "The valid range is from 0 to 127";
         }
 
-        public static string GetFormatError_Magnitude(string str, out double magnitude)
+        public static string GetFormatError_Magnitude(string str, out double mag)
         {
-            throw new NotImplementedException();
+            if (double.TryParse(str.Replace(".",","), out mag))
+            {
+                return null;
+            }
+
+            return "This value must be a real number";
         }
 
-        public static string GetFormatError_Angle(string str, out int angle)
+        public static string GetFormatError_Angle(string str, out int ang)
         {
-            throw new NotImplementedException();
+            if (int.TryParse(str, out ang))
+            {
+                ang += 1080; // 3 x 360
+                ang %= 360;
+
+                if (ang >= 0 && ang < 360)
+                {
+                    return null;
+                }
+            }
+
+            return "The valid range is from 0 to 359";
         }
     }
 }

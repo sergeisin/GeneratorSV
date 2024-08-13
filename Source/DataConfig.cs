@@ -507,21 +507,25 @@ namespace GeneratorSV
         private void ComputeCurrentsFromSequences() // I1, I2, I0
         {
             Changed?.Invoke();
+            throw new NotImplementedException();
         }
 
         private void ComputeVoltagesFromSequences() // U1, U2, U0
         {
             Changed?.Invoke();
+            throw new NotImplementedException();
         }
 
         private void ComputeCurrentsFromPhasors()   // Ia, Ib, Ic, In
         {
             Changed?.Invoke();
+            throw new NotImplementedException();
         }
 
         private void ComputeVoltagesFromPhasors()   // Ua, Ub, Uc, Un
         {
             Changed?.Invoke();
+            throw new NotImplementedException();
         }
 
         public int KI { get; set; } = 1000;
