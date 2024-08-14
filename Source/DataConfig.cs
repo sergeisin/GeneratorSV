@@ -284,6 +284,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_U1_) > Epsilon)
                 {
                     mag_U1_ = value;
+                    ang_U1_ = (value < Epsilon) ? 0 : ang_U1_;
                     ComputeVoltagesFromSequences();
                 }
             }
@@ -301,6 +302,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_U2_) > Epsilon)
                 {
                     mag_U2_ = value;
+                    ang_U2_ = (value < Epsilon) ? 0 : ang_U2_;
                     ComputeVoltagesFromSequences();
                 }
             }
@@ -318,6 +320,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_U0_) > Epsilon)
                 {
                     mag_U0_ = value;
+                    ang_U0_ = (value < Epsilon) ? 0 : ang_U0_;
                     ComputeVoltagesFromSequences();
                 }
             }
@@ -386,6 +389,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Ua_) > Epsilon)
                 {
                     mag_Ua_ = value;
+                    ang_Ua_ = (value < Epsilon) ? 0 : ang_Ua_;
                     ComputeVoltagesFromPhasors();
                 }
             }
@@ -403,6 +407,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Ub_) > Epsilon)
                 {
                     mag_Ub_ = value;
+                    ang_Ub_ = (value < Epsilon) ? 0 : ang_Ub_;
                     ComputeVoltagesFromPhasors();
                 }
             }
@@ -420,6 +425,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Uc_) > Epsilon)
                 {
                     mag_Uc_ = value;
+                    ang_Uc_ = (value < Epsilon) ? 0 : ang_Uc_;
                     ComputeVoltagesFromPhasors();
                 }
             }
@@ -437,6 +443,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Un_) > Epsilon)
                 {
                     mag_Un_ = value;
+                    ang_Un_ = (value < Epsilon) ? 0 : ang_Un_;
                     ComputeVoltagesFromPhasors();
                 }
             }

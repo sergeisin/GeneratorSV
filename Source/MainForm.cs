@@ -51,6 +51,14 @@ namespace GeneratorSV
             tBox_I2a.Click      += SelectText;
             tBox_I3a.Click      += SelectText;
             tBox_I4a.Click      += SelectText;
+            tBox_U1.Click       += SelectText;
+            tBox_U2.Click       += SelectText;
+            tBox_U3.Click       += SelectText;
+            tBox_U4.Click       += SelectText;
+            tBox_U1a.Click      += SelectText;
+            tBox_U2a.Click      += SelectText;
+            tBox_U3a.Click      += SelectText;
+            tBox_U4a.Click      += SelectText;
             tBox_kI.Click       += SelectText;
             tBox_kU.Click       += SelectText;
 
@@ -70,6 +78,14 @@ namespace GeneratorSV
             tBox_I2a.KeyDown        += CheckFinishEditing;
             tBox_I3a.KeyDown        += CheckFinishEditing;
             tBox_I4a.KeyDown        += CheckFinishEditing;
+            tBox_U1.KeyDown         += CheckFinishEditing;
+            tBox_U2.KeyDown         += CheckFinishEditing;
+            tBox_U3.KeyDown         += CheckFinishEditing;
+            tBox_U4.KeyDown         += CheckFinishEditing;
+            tBox_U1a.KeyDown        += CheckFinishEditing;
+            tBox_U2a.KeyDown        += CheckFinishEditing;
+            tBox_U3a.KeyDown        += CheckFinishEditing;
+            tBox_U4a.KeyDown        += CheckFinishEditing;
             tBox_kI.KeyDown         += CheckFinishEditing;
             tBox_kU.KeyDown         += CheckFinishEditing;
 
@@ -79,11 +95,19 @@ namespace GeneratorSV
             tBox_I2.Validated       += TryEditMag;
             tBox_I3.Validated       += TryEditMag;
             tBox_I4.Validated       += TryEditMag;
+            tBox_U1.Validated       += TryEditMag;
+            tBox_U2.Validated       += TryEditMag;
+            tBox_U3.Validated       += TryEditMag;
+            tBox_U4.Validated       += TryEditMag;
 
             tBox_I1a.Validated      += TryEditAng;
             tBox_I2a.Validated      += TryEditAng;
             tBox_I3a.Validated      += TryEditAng;
             tBox_I4a.Validated      += TryEditAng;
+            tBox_U1a.Validated      += TryEditAng;
+            tBox_U2a.Validated      += TryEditAng;
+            tBox_U3a.Validated      += TryEditAng;
+            tBox_U4a.Validated      += TryEditAng;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -287,9 +311,17 @@ namespace GeneratorSV
                 label_I2.Text = "Ib";
                 label_I3.Text = "Ic";
 
+                label_U1.Text = "Ua";
+                label_U2.Text = "Ub";
+                label_U3.Text = "Uc";
+
                 label_I4.Visible = true;
-                tBox_I4. Visible = true;
+                tBox_I4 .Visible = true;
                 tBox_I4a.Visible = true;
+
+                label_U4.Visible = true;
+                tBox_U4 .Visible = true;
+                tBox_U4a.Visible = true;
             }
             else
             {
@@ -297,9 +329,17 @@ namespace GeneratorSV
                 label_I2.Text = "I2";
                 label_I3.Text = "I0";
 
+                label_U1.Text = "U1";
+                label_U2.Text = "U2";
+                label_U3.Text = "U0";
+
                 label_I4.Visible = false;
-                tBox_I4. Visible = false;
+                tBox_I4 .Visible = false;
                 tBox_I4a.Visible = false;
+
+                label_U4.Visible = false;
+                tBox_U4 .Visible = false;
+                tBox_U4a.Visible = false;
             }
 
             UpdateDataView(rButton.Checked);
@@ -323,11 +363,10 @@ namespace GeneratorSV
                         case "I2m": dataConfig.Ib_Magnitude = mag; break;
                         case "I3m": dataConfig.Ic_Magnitude = mag; break;
                         case "I4m": dataConfig.In_Magnitude = mag; break;
-
-                        case "U1m": break;
-                        case "U2m": break;
-                        case "U3m": break;
-                        case "U4m": break;
+                        case "U1m": dataConfig.Ua_Magnitude = mag; break;
+                        case "U2m": dataConfig.Ub_Magnitude = mag; break;
+                        case "U3m": dataConfig.Uc_Magnitude = mag; break;
+                        case "U4m": dataConfig.Un_Magnitude = mag; break;
                     }
                 }
                 else
@@ -337,10 +376,9 @@ namespace GeneratorSV
                         case "I1m": dataConfig.I1_Magnitude = mag; break;
                         case "I2m": dataConfig.I2_Magnitude = mag; break;
                         case "I3m": dataConfig.I0_Magnitude = mag; break;
-
-                        case "U1m": break;
-                        case "U2m": break;
-                        case "U3m": break;
+                        case "U1m": dataConfig.U1_Magnitude = mag; break;
+                        case "U2m": dataConfig.U2_Magnitude = mag; break;
+                        case "U3m": dataConfig.U0_Magnitude = mag; break;
                     }
                 }
             }
@@ -370,11 +408,10 @@ namespace GeneratorSV
                         case "I2a": dataConfig.Ib_Angle = ang; break;
                         case "I3a": dataConfig.Ic_Angle = ang; break;
                         case "I4a": dataConfig.In_Angle = ang; break;
-
-                        case "U1a": break;
-                        case "U2a": break;
-                        case "U3a": break;
-                        case "U4a": break;
+                        case "U1a": dataConfig.Ua_Angle = ang; break;
+                        case "U2a": dataConfig.Ub_Angle = ang; break;
+                        case "U3a": dataConfig.Uc_Angle = ang; break;
+                        case "U4a": dataConfig.Un_Angle = ang; break;
                     }
                 }
                 else
@@ -384,10 +421,9 @@ namespace GeneratorSV
                         case "I1a": dataConfig.I1_Angle = ang; break;
                         case "I2a": dataConfig.I2_Angle = ang; break;
                         case "I3a": dataConfig.I0_Angle = ang; break;
-
-                        case "U1a": break;
-                        case "U2a": break;
-                        case "U3a": break;
+                        case "U1a": dataConfig.U1_Angle = ang; break;
+                        case "U2a": dataConfig.U2_Angle = ang; break;
+                        case "U3a": dataConfig.U0_Angle = ang; break;
                     }
                 }
             }
@@ -410,11 +446,21 @@ namespace GeneratorSV
                 tBox_I2.Text = dataConfig.Ib_Magnitude.ToString(format, cultureInfo);
                 tBox_I3.Text = dataConfig.Ic_Magnitude.ToString(format, cultureInfo);
                 tBox_I4.Text = dataConfig.In_Magnitude.ToString(format, cultureInfo);
+                
+                tBox_U1.Text = dataConfig.Ua_Magnitude.ToString(format, cultureInfo);
+                tBox_U2.Text = dataConfig.Ub_Magnitude.ToString(format, cultureInfo);
+                tBox_U3.Text = dataConfig.Uc_Magnitude.ToString(format, cultureInfo);
+                tBox_U4.Text = dataConfig.Un_Magnitude.ToString(format, cultureInfo);
 
                 tBox_I1a.Text = dataConfig.Ia_Angle.ToString();
                 tBox_I2a.Text = dataConfig.Ib_Angle.ToString();
                 tBox_I3a.Text = dataConfig.Ic_Angle.ToString();
                 tBox_I4a.Text = dataConfig.In_Angle.ToString();
+
+                tBox_U1a.Text = dataConfig.Ua_Angle.ToString();
+                tBox_U2a.Text = dataConfig.Ub_Angle.ToString();
+                tBox_U3a.Text = dataConfig.Uc_Angle.ToString();
+                tBox_U4a.Text = dataConfig.Un_Angle.ToString();
             }
             else
             {
@@ -422,9 +468,17 @@ namespace GeneratorSV
                 tBox_I2.Text = dataConfig.I2_Magnitude.ToString(format, cultureInfo);
                 tBox_I3.Text = dataConfig.I0_Magnitude.ToString(format, cultureInfo);
 
+                tBox_U1.Text = dataConfig.U1_Magnitude.ToString(format, cultureInfo);
+                tBox_U2.Text = dataConfig.U2_Magnitude.ToString(format, cultureInfo);
+                tBox_U3.Text = dataConfig.U0_Magnitude.ToString(format, cultureInfo);
+
                 tBox_I1a.Text = dataConfig.I1_Angle.ToString();
                 tBox_I2a.Text = dataConfig.I2_Angle.ToString();
                 tBox_I3a.Text = dataConfig.I0_Angle.ToString();
+
+                tBox_U1a.Text = dataConfig.U1_Angle.ToString();
+                tBox_U2a.Text = dataConfig.U2_Angle.ToString();
+                tBox_U3a.Text = dataConfig.U0_Angle.ToString();
             }
         }
     }

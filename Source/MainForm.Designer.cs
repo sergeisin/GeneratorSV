@@ -59,6 +59,18 @@
             this.label_Ang = new System.Windows.Forms.Label();
             this.rButton_Mode1 = new System.Windows.Forms.RadioButton();
             this.rButton_Mode2 = new System.Windows.Forms.RadioButton();
+            this.tBox_U1 = new System.Windows.Forms.TextBox();
+            this.tBox_U2 = new System.Windows.Forms.TextBox();
+            this.tBox_U3 = new System.Windows.Forms.TextBox();
+            this.tBox_U4 = new System.Windows.Forms.TextBox();
+            this.tBox_U1a = new System.Windows.Forms.TextBox();
+            this.tBox_U2a = new System.Windows.Forms.TextBox();
+            this.tBox_U3a = new System.Windows.Forms.TextBox();
+            this.tBox_U4a = new System.Windows.Forms.TextBox();
+            this.label_U1 = new System.Windows.Forms.Label();
+            this.label_U2 = new System.Windows.Forms.Label();
+            this.label_U3 = new System.Windows.Forms.Label();
+            this.label_U4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // runButton
@@ -343,7 +355,7 @@
             // 
             // tBox_kI
             // 
-            this.tBox_kI.Location = new System.Drawing.Point(440, 210);
+            this.tBox_kI.Location = new System.Drawing.Point(128, 322);
             this.tBox_kI.MaxLength = 10;
             this.tBox_kI.Name = "tBox_kI";
             this.tBox_kI.Size = new System.Drawing.Size(80, 20);
@@ -354,7 +366,7 @@
             // 
             // label_kI
             // 
-            this.label_kI.Location = new System.Drawing.Point(385, 210);
+            this.label_kI.Location = new System.Drawing.Point(73, 322);
             this.label_kI.Name = "label_kI";
             this.label_kI.Size = new System.Drawing.Size(50, 20);
             this.label_kI.TabIndex = 30;
@@ -363,7 +375,7 @@
             // 
             // tBox_kU
             // 
-            this.tBox_kU.Location = new System.Drawing.Point(440, 236);
+            this.tBox_kU.Location = new System.Drawing.Point(128, 348);
             this.tBox_kU.MaxLength = 10;
             this.tBox_kU.Name = "tBox_kU";
             this.tBox_kU.Size = new System.Drawing.Size(80, 20);
@@ -374,7 +386,7 @@
             // 
             // label_kU
             // 
-            this.label_kU.Location = new System.Drawing.Point(385, 236);
+            this.label_kU.Location = new System.Drawing.Point(73, 348);
             this.label_kU.Name = "label_kU";
             this.label_kU.Size = new System.Drawing.Size(50, 20);
             this.label_kU.TabIndex = 32;
@@ -439,7 +451,7 @@
             // 
             this.rButton_Mode1.AutoSize = true;
             this.rButton_Mode1.Checked = true;
-            this.rButton_Mode1.Location = new System.Drawing.Point(533, 211);
+            this.rButton_Mode1.Location = new System.Drawing.Point(221, 323);
             this.rButton_Mode1.Name = "rButton_Mode1";
             this.rButton_Mode1.Size = new System.Drawing.Size(60, 17);
             this.rButton_Mode1.TabIndex = 39;
@@ -451,18 +463,154 @@
             // rButton_Mode2
             // 
             this.rButton_Mode2.AutoSize = true;
-            this.rButton_Mode2.Location = new System.Drawing.Point(533, 237);
+            this.rButton_Mode2.Location = new System.Drawing.Point(221, 349);
             this.rButton_Mode2.Name = "rButton_Mode2";
             this.rButton_Mode2.Size = new System.Drawing.Size(79, 17);
             this.rButton_Mode2.TabIndex = 40;
             this.rButton_Mode2.Text = "Sequences";
             this.rButton_Mode2.UseVisualStyleBackColor = true;
             // 
+            // tBox_U1
+            // 
+            this.tBox_U1.Location = new System.Drawing.Point(440, 178);
+            this.tBox_U1.MaxLength = 10;
+            this.tBox_U1.Name = "tBox_U1";
+            this.tBox_U1.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U1.TabIndex = 41;
+            this.tBox_U1.TabStop = false;
+            this.tBox_U1.Tag = "U1m";
+            this.tBox_U1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U2
+            // 
+            this.tBox_U2.Location = new System.Drawing.Point(440, 206);
+            this.tBox_U2.MaxLength = 10;
+            this.tBox_U2.Name = "tBox_U2";
+            this.tBox_U2.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U2.TabIndex = 42;
+            this.tBox_U2.TabStop = false;
+            this.tBox_U2.Tag = "U2m";
+            this.tBox_U2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U3
+            // 
+            this.tBox_U3.Location = new System.Drawing.Point(440, 234);
+            this.tBox_U3.MaxLength = 10;
+            this.tBox_U3.Name = "tBox_U3";
+            this.tBox_U3.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U3.TabIndex = 43;
+            this.tBox_U3.TabStop = false;
+            this.tBox_U3.Tag = "U3m";
+            this.tBox_U3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U4
+            // 
+            this.tBox_U4.Location = new System.Drawing.Point(440, 262);
+            this.tBox_U4.MaxLength = 10;
+            this.tBox_U4.Name = "tBox_U4";
+            this.tBox_U4.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U4.TabIndex = 44;
+            this.tBox_U4.TabStop = false;
+            this.tBox_U4.Tag = "U4m";
+            this.tBox_U4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U1a
+            // 
+            this.tBox_U1a.Location = new System.Drawing.Point(530, 178);
+            this.tBox_U1a.MaxLength = 4;
+            this.tBox_U1a.Name = "tBox_U1a";
+            this.tBox_U1a.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U1a.TabIndex = 45;
+            this.tBox_U1a.TabStop = false;
+            this.tBox_U1a.Tag = "U1a";
+            this.tBox_U1a.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U2a
+            // 
+            this.tBox_U2a.Location = new System.Drawing.Point(530, 206);
+            this.tBox_U2a.MaxLength = 4;
+            this.tBox_U2a.Name = "tBox_U2a";
+            this.tBox_U2a.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U2a.TabIndex = 46;
+            this.tBox_U2a.TabStop = false;
+            this.tBox_U2a.Tag = "U2a";
+            this.tBox_U2a.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U3a
+            // 
+            this.tBox_U3a.Location = new System.Drawing.Point(530, 234);
+            this.tBox_U3a.MaxLength = 4;
+            this.tBox_U3a.Name = "tBox_U3a";
+            this.tBox_U3a.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U3a.TabIndex = 47;
+            this.tBox_U3a.TabStop = false;
+            this.tBox_U3a.Tag = "U3a";
+            this.tBox_U3a.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tBox_U4a
+            // 
+            this.tBox_U4a.Location = new System.Drawing.Point(530, 262);
+            this.tBox_U4a.MaxLength = 4;
+            this.tBox_U4a.Name = "tBox_U4a";
+            this.tBox_U4a.Size = new System.Drawing.Size(80, 20);
+            this.tBox_U4a.TabIndex = 48;
+            this.tBox_U4a.TabStop = false;
+            this.tBox_U4a.Tag = "U4a";
+            this.tBox_U4a.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label_U1
+            // 
+            this.label_U1.Location = new System.Drawing.Point(385, 177);
+            this.label_U1.Name = "label_U1";
+            this.label_U1.Size = new System.Drawing.Size(50, 20);
+            this.label_U1.TabIndex = 49;
+            this.label_U1.Text = "Ua";
+            this.label_U1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label_U2
+            // 
+            this.label_U2.Location = new System.Drawing.Point(385, 205);
+            this.label_U2.Name = "label_U2";
+            this.label_U2.Size = new System.Drawing.Size(50, 20);
+            this.label_U2.TabIndex = 50;
+            this.label_U2.Text = "Ub";
+            this.label_U2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label_U3
+            // 
+            this.label_U3.Location = new System.Drawing.Point(385, 233);
+            this.label_U3.Name = "label_U3";
+            this.label_U3.Size = new System.Drawing.Size(50, 20);
+            this.label_U3.TabIndex = 51;
+            this.label_U3.Text = "Uc";
+            this.label_U3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label_U4
+            // 
+            this.label_U4.Location = new System.Drawing.Point(385, 261);
+            this.label_U4.Name = "label_U4";
+            this.label_U4.Size = new System.Drawing.Size(50, 20);
+            this.label_U4.TabIndex = 52;
+            this.label_U4.Text = "Un";
+            this.label_U4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this.label_U4);
+            this.Controls.Add(this.label_U3);
+            this.Controls.Add(this.label_U2);
+            this.Controls.Add(this.label_U1);
+            this.Controls.Add(this.tBox_U4a);
+            this.Controls.Add(this.tBox_U3a);
+            this.Controls.Add(this.tBox_U2a);
+            this.Controls.Add(this.tBox_U1a);
+            this.Controls.Add(this.tBox_U4);
+            this.Controls.Add(this.tBox_U3);
+            this.Controls.Add(this.tBox_U2);
+            this.Controls.Add(this.tBox_U1);
             this.Controls.Add(this.rButton_Mode2);
             this.Controls.Add(this.rButton_Mode1);
             this.Controls.Add(this.label_Ang);
@@ -552,5 +700,17 @@
         private System.Windows.Forms.Label label_Ang;
         private System.Windows.Forms.RadioButton rButton_Mode1;
         private System.Windows.Forms.RadioButton rButton_Mode2;
+        private System.Windows.Forms.TextBox tBox_U1;
+        private System.Windows.Forms.TextBox tBox_U2;
+        private System.Windows.Forms.TextBox tBox_U3;
+        private System.Windows.Forms.TextBox tBox_U4;
+        private System.Windows.Forms.TextBox tBox_U1a;
+        private System.Windows.Forms.TextBox tBox_U2a;
+        private System.Windows.Forms.TextBox tBox_U3a;
+        private System.Windows.Forms.TextBox tBox_U4a;
+        private System.Windows.Forms.Label label_U1;
+        private System.Windows.Forms.Label label_U2;
+        private System.Windows.Forms.Label label_U3;
+        private System.Windows.Forms.Label label_U4;
     }
 }
