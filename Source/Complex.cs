@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneratorSV.Source
+namespace GeneratorSV
 {
     public class Complex
     {
@@ -12,6 +12,9 @@ namespace GeneratorSV.Source
             Mag = Math.Sqrt(re * re + im * im);
             Rad = Math.Atan2(im, re);
             Deg = Rad * RadToDeg;
+            
+            if (Deg < 0)
+                Deg += 360.0;
         }
 
         public static Complex FromPolars(double mag, double rad)
@@ -27,9 +30,19 @@ namespace GeneratorSV.Source
             return FromPolars(c.Mag, c.Rad + angRads);
         }
 
-        public static Complex operator+ (Complex a, Complex b)
+        public static Complex operator + (Complex a, Complex b)
         {
             return new Complex(a.Re + b.Re, a.Im + b.Im);
+        }
+
+        public static Complex operator * (Complex c, double v)
+        {
+            return new Complex(c.Re * v, c.Im * v);
+        }
+
+        public static Complex operator / (Complex c, double v)
+        {
+            return new Complex(c.Re / v, c.Im / v);
         }
 
         public double Re  { get; }

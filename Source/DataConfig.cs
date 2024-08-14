@@ -39,6 +39,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_I1_) > Epsilon)
                 {
                     mag_I1_ = value;
+                    ang_I1_ = (value < Epsilon) ? 0 : ang_I1_;
                     ComputeCurrentsFromSequences();
                 }
             }
@@ -56,6 +57,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_I2_) > Epsilon)
                 {
                     mag_I2_ = value;
+                    ang_I2_ = (value < Epsilon) ? 0 : ang_I2_;
                     ComputeCurrentsFromSequences();
                 }
             }
@@ -73,6 +75,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_I0_) > Epsilon)
                 {
                     mag_I0_ = value;
+                    ang_I0_ = (value < Epsilon) ? 0 : ang_I0_;
                     ComputeCurrentsFromSequences();
                 }
             }
@@ -141,6 +144,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Ia_) > Epsilon)
                 {
                     mag_Ia_ = value;
+                    ang_Ia_ = (value < Epsilon) ? 0 : ang_Ia_;
                     ComputeCurrentsFromPhasors();
                 }
             }
@@ -158,6 +162,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Ib_) > Epsilon)
                 {
                     mag_Ib_ = value;
+                    ang_Ib_ = (value < Epsilon) ? 0 : ang_Ib_;
                     ComputeCurrentsFromPhasors();
                 }
             }
@@ -175,6 +180,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_Ic_) > Epsilon)
                 {
                     mag_Ic_ = value;
+                    ang_Ic_ = (value < Epsilon) ? 0 : ang_Ic_;
                     ComputeCurrentsFromPhasors();
                 }
             }
@@ -192,6 +198,7 @@ namespace GeneratorSV
                 if (Math.Abs(value - mag_In_) > Epsilon)
                 {
                     mag_In_ = value;
+                    ang_In_ = (value < Epsilon) ? 0 : ang_In_;
                     ComputeCurrentsFromPhasors();
                 }
             }
@@ -506,53 +513,122 @@ namespace GeneratorSV
 
         private void ComputeCurrentsFromSequences()
         {
-            // var I0 = Complex.FromPolar(mag_I0_, ang_I0_);
+            var I0 = Complex.FromPolars(mag_I0_, Complex.DegToRad * ang_I0_);
+            var I1 = Complex.FromPolars(mag_I1_, Complex.DegToRad * ang_I1_);
+            var I2 = Complex.FromPolars(mag_I2_, Complex.DegToRad * ang_I2_);
 
-            // var I1    = Complex.FromPolar(mag_I1_, ang_I1_ + 000);
-            // var I1_A  = Complex.FromPolar(mag_I1_, ang_I1_ + 120);
-            // var I1_AA = Complex.FromPolar(mag_I1_, ang_I1_ + 240);
+            var I1_a1 = Complex.Rotate(I1, Complex.DegToRad * 120);
+            var I1_a2 = Complex.Rotate(I1, Complex.DegToRad * 240);
 
-            // var I2    = Complex.FromPolar(mag_I2_, ang_I2_ + 000);
-            // var I2_A  = Complex.FromPolar(mag_I2_, ang_I2_ + 120);
-            // var I2_AA = Complex.FromPolar(mag_I2_, ang_I2_ + 240);
+            var I2_a1 = Complex.Rotate(I2, Complex.DegToRad * 120);
+            var I2_a2 = Complex.Rotate(I2, Complex.DegToRad * 240);
 
-            // var Ia = I1    + I2    + I0;
-            // var Ib = I1_AA + I2_A  + I0;
-            // var Ic = I1_A  + I2_AA + I0;
-            // var In = Ia + Ib + Ic;
+            var Ia = I1    + I2    + I0;
+            var Ib = I1_a2 + I2_a1 + I0;
+            var Ic = I1_a1 + I2_a2 + I0;
+            var In = Ia    + Ib    + Ic;
 
-            // mag_Ia_ = Ia.Mag;  ang_Ia_ = Ia.Ang;
-            // mag_Ib_ = Ib.Mag;  ang_Ib_ = Ib.Ang;
-            // mag_Ic_ = Ic.Mag;  ang_Ic_ = Ic.Ang;
-            // mag_In_ = In.Mag;  ang_In_ = In.Ang;
+            mag_Ia_ = Ia.Mag;
+            ang_Ia_ = (mag_Ia_ < Epsilon) ? 0 : (int)Math.Round(Ia.Deg);
 
-            // Оператор A  - "ang + 120"
-            // Оператор AA - "ang + 240"
+            mag_Ib_ = Ib.Mag;
+            ang_Ib_ = (mag_Ib_ < Epsilon) ? 0 : (int)Math.Round(Ib.Deg);
+
+            mag_Ic_ = Ic.Mag;
+            ang_Ic_ = (mag_Ic_ < Epsilon) ? 0 : (int)Math.Round(Ic.Deg);
+
+            mag_In_ = In.Mag;
+            ang_In_ = (mag_In_ < Epsilon) ? 0 : (int)Math.Round(In.Deg);
 
             Changed?.Invoke();
-            throw new NotImplementedException();
         }
 
-        private void ComputeVoltagesFromSequences() // U1, U2, U0
+        private void ComputeVoltagesFromSequences()
         {
+            var U1 = Complex.FromPolars(mag_U1_, Complex.DegToRad * ang_U1_);
+            var U2 = Complex.FromPolars(mag_U2_, Complex.DegToRad * ang_U2_);
+            var U0 = Complex.FromPolars(mag_U0_, Complex.DegToRad * ang_U0_);
+
+            var U1_a1 = Complex.Rotate(U1, Complex.DegToRad * 120);
+            var U1_a2 = Complex.Rotate(U1, Complex.DegToRad * 240);
+
+            var U2_a1 = Complex.Rotate(U2, Complex.DegToRad * 120);
+            var U2_a2 = Complex.Rotate(U2, Complex.DegToRad * 240);
+
+            var Ua = U1    + U2    + U0;
+            var Ub = U1_a2 + U2_a1 + U0;
+            var Uc = U1_a1 + U2_a2 + U0;
+            var Un = Ua    + Ub    + Uc;
+
+            mag_Ua_ = Ua.Mag;
+            ang_Ua_ = (mag_Ua_ < Epsilon) ? 0 : (int)Math.Round(Ua.Deg);
+
+            mag_Ub_ = Ub.Mag;
+            ang_Ub_ = (mag_Ub_ < Epsilon) ? 0 : (int)Math.Round(Ub.Deg);
+
+            mag_Uc_ = Uc.Mag;
+            ang_Uc_ = (mag_Uc_ < Epsilon) ? 0 : (int)Math.Round(Uc.Deg);
+
+            mag_Un_ = Un.Mag;
+            ang_Un_ = (mag_Un_ < Epsilon) ? 0 : (int)Math.Round(Un.Deg);
+
             Changed?.Invoke();
-            throw new NotImplementedException();
         }
 
-        private void ComputeCurrentsFromPhasors()   // Ia, Ib, Ic, In
+        private void ComputeCurrentsFromPhasors()
         {
-            // I1 = (Ia +   a * Ib + a*a * Ic) / 3
-            // I2 = (Ia + a*a * Ib +   a * Ic) / 3
-            // I0 = (Ia +       Ib +       Ic) / 3
+            var Ia = Complex.FromPolars(mag_Ia_, Complex.DegToRad * ang_Ia_);
+            var Ib = Complex.FromPolars(mag_Ib_, Complex.DegToRad * ang_Ib_);
+            var Ic = Complex.FromPolars(mag_Ic_, Complex.DegToRad * ang_Ic_);
+
+            var Ib_a1 = Complex.Rotate(Ib, Complex.DegToRad * 120);
+            var Ib_a2 = Complex.Rotate(Ib, Complex.DegToRad * 240);
+
+            var Ic_a1 = Complex.Rotate(Ic, Complex.DegToRad * 120);
+            var Ic_a2 = Complex.Rotate(Ic, Complex.DegToRad * 240);
+
+            var I1 = (Ia + Ib_a1 + Ic_a2) / 3.0;
+            var I2 = (Ia + Ib_a2 + Ic_a1) / 3.0;
+            var I0 = (Ia + Ib    + Ic)    / 3.0;
+
+            mag_I1_ = I1.Mag;
+            ang_I1_ = (mag_I1_ < Epsilon) ? 0 : (int)Math.Round(I1.Deg);
+
+            mag_I2_ = I2.Mag;
+            ang_I2_ = (mag_I2_ < Epsilon) ? 0 : (int)Math.Round(I2.Deg);
+
+            mag_I0_ = I0.Mag;
+            ang_I0_ = (mag_I0_ < Epsilon) ? 0 : (int)Math.Round(I0.Deg);
 
             Changed?.Invoke();
-            throw new NotImplementedException();
         }
 
-        private void ComputeVoltagesFromPhasors()   // Ua, Ub, Uc, Un
+        private void ComputeVoltagesFromPhasors()
         {
+            var Ua = Complex.FromPolars(mag_Ua_, Complex.DegToRad * ang_Ua_);
+            var Ub = Complex.FromPolars(mag_Ub_, Complex.DegToRad * ang_Ub_);
+            var Uc = Complex.FromPolars(mag_Uc_, Complex.DegToRad * ang_Uc_);
+
+            var Ub_a1 = Complex.Rotate(Ub, Complex.DegToRad * 120);
+            var Ub_a2 = Complex.Rotate(Ub, Complex.DegToRad * 240);
+
+            var Uc_a1 = Complex.Rotate(Uc, Complex.DegToRad * 120);
+            var Uc_a2 = Complex.Rotate(Uc, Complex.DegToRad * 240);
+
+            var U1 = (Ua + Ub_a1 + Uc_a2) / 3.0;
+            var U2 = (Ua + Ub_a2 + Uc_a1) / 3.0;
+            var U0 = (Ua + Ub    + Uc)    / 3.0;
+
+            mag_U1_ = U1.Mag;
+            ang_U1_ = (mag_U1_ < Epsilon) ? 0 : (int)Math.Round(U1.Deg);
+
+            mag_U2_ = U2.Mag;
+            ang_U2_ = (mag_U2_ < Epsilon) ? 0 : (int)Math.Round(U2.Deg);
+
+            mag_U0_ = U0.Mag;
+            ang_U0_ = (mag_U0_ < Epsilon) ? 0 : (int)Math.Round(U0.Deg);
+
             Changed?.Invoke();
-            throw new NotImplementedException();
         }
 
         public int KI { get; set; } = 1000;
