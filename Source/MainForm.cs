@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Globalization;
 using SharpPcap.LibPcap;
-using GeneratorSV.Source;
 
 namespace GeneratorSV
 {

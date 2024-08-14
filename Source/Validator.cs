@@ -1,7 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
-namespace GeneratorSV.Source
+namespace GeneratorSV
 {
     public static class Validator
     {

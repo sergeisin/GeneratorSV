@@ -15,9 +15,6 @@ namespace GeneratorSV
         private SVCBConfig conf;
         private DataConfig data;
 
-        public SVCBConfig SVCBConfig { get { return conf; } }
-        public DataConfig DataConfig { get { return data; } }
-
         public SVPublisher(string interfaceName, SVCBConfig svcbConfig, DataConfig dataConfig)
         {
             Interface = interfaceName;
