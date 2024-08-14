@@ -1,9 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeneratorSV.Source
 {
@@ -11,56 +6,39 @@ namespace GeneratorSV.Source
     {
         public Complex(double re, double im)
         {
-            re_ = re;
-            im_ = im;
+            Re = re;
+            Im = im;
 
-            mag_ = Math.Sqrt(re * re + im * im);
-            ang_ = Math.Atan2(im, re);
+            Mag = Math.Sqrt(re * re + im * im);
+            Rad = Math.Atan2(im, re);
+            Deg = Rad * RadToDeg;
         }
 
-        public Complex(double mag, int ang)
+        public static Complex FromPolars(double mag, double rad)
         {
-            mag_ = mag;
-            ang_ = ang;
+            double re = mag * Math.Cos(rad);
+            double im = mag * Math.Sin(rad);
 
-            throw new NotImplementedException();
+            return new Complex(re, im);
         }
 
-        public static Complex operator +(Complex a, Complex b)
+        public static Complex Rotate(Complex c, double angRads)
+        {
+            return FromPolars(c.Mag, c.Rad + angRads);
+        }
+
+        public static Complex operator+ (Complex a, Complex b)
         {
             return new Complex(a.Re + b.Re, a.Im + b.Im);
         }
 
-        public double Re
-        {
-            get { return re_; }
-            set { re_ = value; }
-        }
+        public double Re  { get; }
+        public double Im  { get; }
+        public double Mag { get; }
+        public double Rad { get; }
+        public double Deg { get; }
 
-        public double Im
-        {
-            get { return im_; }
-            set { im_ = value; }
-        }
-
-        public double Mag
-        {
-            get { return mag_; }
-            set { mag_ = value; }
-        }
-
-        public double Ang
-        {
-            get { return ang_; }
-            set { ang_ = value; }
-        }
-
-        // Cartesian coordinates
-        private double re_;
-        private double im_;
-
-        // Polar coordinates
-        private double mag_;
-        private double ang_;
+        public const double RadToDeg = 180.0 / Math.PI;
+        public const double DegToRad = Math.PI / 180.0;
     }
 }
