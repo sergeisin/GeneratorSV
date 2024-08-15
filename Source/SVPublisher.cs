@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using SharpPcap;
@@ -218,10 +219,21 @@ namespace GeneratorSV
 
             sendingTask = Task.Run(() =>
             {
+                var sw = new Stopwatch();
+
                 while (IsRunning)
                 {
+                    sw.Restart();
+
                     squeue.Transmit(device, SendQueueTransmitModes.Synchronized);
+
+                    while (sw.ElapsedTicks < Stopwatch.Frequency)
+                    {
+                        // Sync wait
+                    }
                 }
+
+                sw.Stop();
             });
         }
 
